@@ -4,7 +4,7 @@
 
 (load "~/.pwds")
 
-(setq compilation-environment (list "LZ_HOST=t.api.linezing.com:9999"))
+(setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
 ;; (setq wd-make-env "LZ_HOST=t.api.linezing.com:9999 ")
 
 (require 'color-theme-hober2)
@@ -145,8 +145,9 @@
 ;; -----
 (require 'ido)
 (ido-mode t)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+(global-set-key (kbd "C-x C-d") 'ido-dired)
 
-(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (require 'uniquify)
 (setq
  uniquify-buffer-name-style 'post-forward
@@ -253,8 +254,12 @@
 ;; auto complete
 ;;
 
-(require 'auto-complete)
+
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp//ac-dict")
 (require 'auto-complete-yasnippet)
+
+;; (ac-config-default)
 
 (set-default 'ac-sources
              '(;ac-source-semantic
@@ -270,8 +275,8 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (setq ac-auto-start 3)
-;; (define-key ac-complete-mode-map "\t" 'ac-complete)
-;; (define-key ac-complete-mode-map "\r" nil)
+(define-key ac-complete-mode-map "\t" 'ac-complete)
+(define-key ac-complete-mode-map "\r" nil)
 (setq ac-dwim t)
 
 ;;
@@ -386,7 +391,7 @@ This will also reserve changes already made by a non-root user."
 (setq global-mode-string (list ""
               twittering-unread-mode-line-string ))
 (twittering-icon-mode 1)
-;(setq twittering-use-ssl nil)
+(setq twittering-use-ssl nil)
 (setq twittering-fill-column 40)
 
 ;; 
@@ -441,5 +446,42 @@ This will also reserve changes already made by a non-root user."
 (require 'wcy-smart-compile)
 (global-set-key (kbd "<f7>") 'smart-compile)
 
+;; 
+;; ibuffer
+;; 
+
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("dired" (mode . dired-mode))
+               ("perl" (mode . cperl-mode))
+               ("erc" (mode . erc-mode))
+               ("planner" (or
+                           (name . "^\\*Calendar\\*$")
+                           (name . "^diary$")
+                           (mode . muse-mode)))
+               ("emacs" (or
+                         (name . "^\\*scratch\\*$")
+                         (name . "^\\*Messages\\*$")))
+               ("gnus" (or
+                        (mode . message-mode)
+                        (mode . bbdb-mode)
+                        (mode . mail-mode)
+                        (mode . gnus-group-mode)
+                        (mode . gnus-summary-mode)
+                        (mode . gnus-article-mode)
+                        (name . "^\\.bbdb$")
+                        (name . "^\\.newsrc-dribble")))))))
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; 
+;; portage mode
+;; 
+;; (require 'portage)
+;; (global-set-key (kbd "\C-c p") 'portage-search)
 
 (provide 'wd-misc)

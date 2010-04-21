@@ -45,7 +45,7 @@
   (unless oftc-wd-pass
     (setq oftc-wd-pass (read-passwd "irc.oftc.net password: ")))
   (erc :server "irc.oftc.net" :port 6667 :nick "wd" :password oftc-wd-pass)
-  (if wd-at-company?
+  (if (wd-at-company)
       (erc :server "10.62.163.59" :port 6667 :nick "wd")
     ))
 (global-set-key (kbd "C-c n E") 'wd-erc-select)

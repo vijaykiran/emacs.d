@@ -7,5 +7,6 @@
 (require 'wd-erc)
 (require 'wd-usefull-func)
 (require 'wd-dict)
+(require 'wd-gnus)
 
 (provide 'wd-main)

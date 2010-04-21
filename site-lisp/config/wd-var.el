@@ -7,6 +7,4 @@
       t
     nil)
   )
-(setq wd-at-company? (wd-at-company))
-
 (provide 'wd-var)
