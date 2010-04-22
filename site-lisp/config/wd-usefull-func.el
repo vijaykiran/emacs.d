@@ -96,4 +96,14 @@
 
 (setq compilation-exit-message-function 'xwl-compilation-exit-autoclose)
 
+(defun auto-complete-mode-maybe ()
+  "What buffer `auto-complete-mode' prefers."
+  (if (and (not (minibufferp (current-buffer)))
+           ;; xwl: Enable for all mode.
+           ;; (memq major-mode ac-modes)
+           )
+      (auto-complete-mode 1)))
+
+(auto-complete-mode-maybe)
+
 (provide 'wd-usefull-func)
