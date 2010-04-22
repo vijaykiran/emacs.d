@@ -175,13 +175,34 @@ matches a regexp in `erc-keywords'."
 ;;
 (require 'erc-log)
 (erc-log-mode 1)
-(setq erc-log-channels-directory "~/logs/erc/"
+(setq erc-log-channels-directory "~/logs/erc"
       erc-save-buffer-on-part t
       erc-log-file-coding-system 'utf-8
       erc-log-write-after-send t
       erc-log-write-after-insert t)
 (unless (file-exists-p erc-log-channels-directory)
   (mkdir erc-log-channels-directory t))
+
+ (defun my-erc-generate-log-file-name-short (buffer &optional target
+          nick server port)
+   "This function uses the buffer-name as a file, with some replacing."
+   (let* ((name (buffer-name buffer))
+          (name (replace-regexp-in-string "|" "-" name)))
+     (concat erc-log-channels-directory "/" name ".txt"))
+)
+
+
+(defun wd-erc-generate-log-file-name (buffer &optional target nick server port)
+  "generate file name like server_target.log"
+   (print (format "buffer:%s, target:%s, nick:%s, server:%s, port:%s" buffer target nick server port))
+   (if (string= 
+        (format "%s" buffer) 
+        (format "%s:%s" server port))
+       (concat (format "%s" server) ".log") ; server buffer
+     (concat (format "%s" server) "_" (format "%s" target) ".log")))
+
+;; 让 log 文件按照 server_target.log 这种格式保存
+(setq erc-generate-log-file-name-function 'wd-erc-generate-log-file-name)
 
 ;;
 ;; identify
