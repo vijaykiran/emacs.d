@@ -269,6 +269,7 @@
                ac-source-words-in-all-buffer
                ;ac-source-imenu
                ac-source-files-in-current-dir
+               ac-source-dictionary
                ac-source-filename))
 
 (global-auto-complete-mode t)
@@ -483,5 +484,14 @@ This will also reserve changes already made by a non-root user."
 ;; 
 ;; (require 'portage)
 ;; (global-set-key (kbd "\C-c p") 'portage-search)
+
+;; 
+;; eshell
+;; 
+
+(add-hook 'eshell-load-hook
+          (lambda ()
+            (highlight-tail-mode -1)))
+
 
 (provide 'wd-misc)

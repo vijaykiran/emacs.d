@@ -74,6 +74,11 @@
      (shell-command-to-string
       "echo b > /tmp/tray_daemon_control")))
 
+(defun erc-send-tray-notify (nick message)
+    (let ((default-directory "~/"))
+      (setq realnick (elt (split-string nick "!") 0))
+      (wd-send-tray-notify (format "ERC: %s send you a message" realnick) (format "%s" message))))
+
 ;; use this to auto cancel notify
 ;; (add-hook 'erc-send-pre-hook
 ;;           (lambda(s)
@@ -101,18 +106,10 @@ notification")
   "Number of seconds that must elapse between notifications from
 the same person.")
 
-(defvar my-erc-page-pop-timeout 10
-  "Number of seconds that the pop window should stay there")
-
-(defun my-erc-page-popup-notification (nick)
+(defun my-erc-page-popup-notification (nick message)
   (when window-system
     (erc-tray-change-state t)
-    ;; must set default directory, otherwise start-process is unhappy
-    ;; when this is something remote or nonexistent
-    ;; (let ((default-directory "~/"))
-    ;;   (start-process "page-me" nil "notify-send"
-    ;;                  "-u" "normal" "-t" (* my-erc-page-pop-timeout 10) "ERC"
-    ;;                  (format my-erc-page-message nick)))))
+    (erc-send-tray-notify nick message)
     ))
 
 (defun my-erc-page-allowed (nick &optional delay)
@@ -143,7 +140,7 @@ matches a regexp in `erc-keywords'."
              (null (string-match "\\(bot\\|serv\\)!" nick))
              ;; or from those who abuse the system
              (my-erc-page-allowed nick))
-    (my-erc-page-popup-notification nick)))
+    (my-erc-page-popup-notification nick message)))
 (add-hook 'erc-text-matched-hook 'my-erc-page-me)
 
 (defun my-erc-page-me-PRIVMSG (proc parsed)
@@ -153,22 +150,32 @@ matches a regexp in `erc-keywords'."
     (when (and (erc-current-nick-p target)
                (not (erc-is-message-ctcp-and-not-action-p msg))
                (my-erc-page-allowed nick))
-      (my-erc-page-popup-notification nick)
+      (my-erc-page-popup-notification nick "private message")
       nil)))
 (add-hook 'erc-server-PRIVMSG-functions 'my-erc-page-me-PRIVMSG)
-
-
-
-
-
 
 ;;
 ;; timestamp
 ;;
 
 (erc-timestamp-mode 1)
-(setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
- (setq erc-timestamp-format "[%H:%M] ")
+
+;; these codes is copied from emacswiki
+(make-variable-buffer-local
+ (defvar erc-last-datestamp nil))
+
+(defun ks-timestamp (string)
+  (erc-insert-timestamp-left string)
+  (let ((datestamp (erc-format-timestamp (current-time) erc-datestamp-format)))
+    (unless (string= datestamp erc-last-datestamp)
+      (erc-insert-timestamp-left datestamp)
+      (setq erc-last-datestamp datestamp))))
+    
+(setq erc-timestamp-only-if-changed-flag t
+      erc-timestamp-format "%H:%M "
+      erc-datestamp-format " === [%Y-%m-%d %a] ===\n" ; mandatory ascii art                          
+      erc-fill-prefix "      "
+      erc-insert-timestamp-function 'ks-timestamp)
 
 ;;
 ;; log
@@ -194,7 +201,7 @@ matches a regexp in `erc-keywords'."
 
 (defun wd-erc-generate-log-file-name (buffer &optional target nick server port)
   "generate file name like server_target.log"
-   (print (format "buffer:%s, target:%s, nick:%s, server:%s, port:%s" buffer target nick server port))
+   ;(print (format "buffer:%s, target:%s, nick:%s, server:%s, port:%s" buffer target nick server port))
    (if (string= 
         (format "%s" buffer) 
         (format "%s:%s" server port))
