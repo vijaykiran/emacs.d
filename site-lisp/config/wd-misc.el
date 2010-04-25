@@ -493,5 +493,48 @@ This will also reserve changes already made by a non-root user."
           (lambda ()
             (highlight-tail-mode -1)))
 
+;; add command 'e' to open files
+(defun eshell/e (&rest args)
+  "Open a file in emacs. Some habits die hard."
+  (if (null args)
+      ;; If I just ran "emacs", I probably expect to be launching
+      ;; Emacs, which is rather silly since I'm already in Emacs.
+      ;; So just pretend to do what I ask.
+      (bury-buffer)
+    ;; We have to expand the file names or else naming a directory in an
+    ;; argument causes later arguments to be looked for in that directory,
+    ;; not the starting directory
+    (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
+
+;; made eshell scroll smoothly
+(defun eshell-scroll-to-bottom (window display-start)
+  (if (and window (window-live-p window))
+      (let ((resize-mini-windows nil))
+        (save-selected-window
+          (select-window window)
+          (save-restriction
+            (widen)
+            (when (> (point) eshell-last-output-start) ; we're editing a line. Scroll.
+              (save-excursion
+                (recenter -1)
+                (sit-for 0))))))))
+
+(defun eshell-add-scroll-to-bottom ()
+  (interactive)
+  (make-local-hook 'window-scroll-functions)
+  (add-hook 'window-scroll-functions 'eshell-scroll-to-bottom nil t))
+
+(add-hook 'eshell-mode-hook 'eshell-add-scroll-to-bottom)
+
+;; 
+;; highlight trailing space
+;; (require 'show-wspace)
+;; ;; (add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
+;; ;; (add-hook 'font-lock-mode-hook 'show-ws-highlight-hard-spaces)
+;; (add-hook 'font-lock-mode-hook 'show-ws-highlight-trailing-whitespace)
+(require 'whitespace)
+(setq whitespace-style '(trailing tabs))
+(global-whitespace-mode)
+
 
 (provide 'wd-misc)

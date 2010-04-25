@@ -2,9 +2,9 @@
 (setq gnus-startup-file "~/Mail/.newsrc")
 
 (setq
-	gnus-select-method '(nnmaildir "Alibaba" (directory "~/Mail/"))
- 	mail-sources '((maildir :path "~/Mail/" :subdirs ("cur" "new" "tmp")))
-	mail-source-delete-incoming t
+ gnus-select-method '(nnmaildir "Alibaba" (directory "~/Mail/"))
+ mail-sources '((maildir :path "~/Mail/" :subdirs ("cur" "new" "tmp")))
+ mail-source-delete-incoming t
  )
 
 ;; 发送邮件
