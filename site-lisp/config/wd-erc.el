@@ -170,10 +170,10 @@ matches a regexp in `erc-keywords'."
     (unless (string= datestamp erc-last-datestamp)
       (erc-insert-timestamp-left datestamp)
       (setq erc-last-datestamp datestamp))))
-    
+
 (setq erc-timestamp-only-if-changed-flag t
       erc-timestamp-format "%H:%M "
-      erc-datestamp-format " === [%Y-%m-%d %a] ===\n" ; mandatory ascii art                          
+      erc-datestamp-format " === [%Y-%m-%d %a] ===\n" ; mandatory ascii art
       erc-fill-prefix "      "
       erc-insert-timestamp-function 'ks-timestamp)
 

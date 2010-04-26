@@ -109,7 +109,7 @@
 
 (defun wd-send-tray-notify (title message)
     (let ((default-directory "~/"))
-      (start-process "page-me" nil "kdialog" "--title" title  "--passivepopup" message "600")))
+      (start-process "page-me" nil "kdialog" "--title" title  "--passivepopup" message "60")))
 
 
 (provide 'wd-usefull-func)
