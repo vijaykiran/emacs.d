@@ -46,8 +46,10 @@
     (setq oftc-wd-pass (read-passwd "irc.oftc.net password: ")))
   (erc :server "irc.oftc.net" :port 6667 :nick "wd" :password oftc-wd-pass)
   (if (wd-at-company)
-      (erc :server "10.62.163.59" :port 6667 :nick "wd")
-    ))
+      (erc :server "www.pgsqldb.org" :port 34567 :nick "wd")
+      ;; (erc :server "10.62.163.59" :port 6667 :nick "wd")
+    )
+)
 (global-set-key (kbd "C-c n E") 'wd-erc-select)
 
 ;; auto join
@@ -61,6 +63,9 @@
          "#wd")
         ("EEEE"
          "#eeee")
+        ("www.pgsqldb.com"
+         "#eeee"
+         "#qunar")
         ))
 
 ;;
@@ -77,7 +82,7 @@
 (defun erc-send-tray-notify (nick message)
     (let ((default-directory "~/"))
       (setq realnick (elt (split-string nick "!") 0))
-      (wd-send-tray-notify (format "ERC: %s send you a message" realnick) (format "%s" message))))
+      (wd-send-tray-notify (format "ERC: %s says" realnick) (format "%s" message))))
 
 ;; use this to auto cancel notify
 ;; (add-hook 'erc-send-pre-hook
@@ -92,7 +97,8 @@
 (require 'erc-match)
 (erc-match-mode 1)
 (setq erc-current-nick-highlight-type 'nick-or-keyword)
-(setq erc-keywords '("gentoo" "linux" "\\bwd\\b" "\\bwd_\\b"))
+; (setq erc-keywords '("gentoo" "linux" "\\bwd\\b" "\\bwd_\\b"))
+(setq erc-keywords '("\\bwd\\b" "\\bwd_\\b"))
 (setq erc-pals nil)
 
 (defvar my-erc-page-message "%s is calling your name."
@@ -182,7 +188,7 @@ matches a regexp in `erc-keywords'."
 ;;
 (require 'erc-log)
 (erc-log-mode 1)
-(setq erc-log-channels-directory "~/logs/erc"
+(setq erc-log-channels-directory "~/logs"
       erc-save-buffer-on-part t
       erc-log-file-coding-system 'utf-8
       erc-log-write-after-send t
@@ -217,7 +223,10 @@ matches a regexp in `erc-keywords'."
 (defun xwl-erc-auto-identify (server nick)
    (if (string-match "oftc.net" server)
        (erc-message "PRIVMSG"
-           (format "NickServ identify %s" oftc-wd-pass))))
+           (format "NickServ identify %s" oftc-wd-pass)))
+   (if (string-match "pgsqldb" server)
+       (erc-message "PRIVMSG"
+           (format "NickServ identify %s" pgsqldb-wd-pass))))
 
 (add-hook 'erc-after-connect 'xwl-erc-auto-identify)
 
