@@ -3,6 +3,13 @@
 ;;
 (autoload 'Sql-mode "sql-mode" "SQL Mode." t)
 (add-to-list 'auto-mode-alist '("\\.sql\\'" . sql-mode))
+;; (require 'plsql)
+
+;; (setq auto-mode-alist
+;;       (append
+;;        '(("\\.\\(p\\(?:k[bg]\\|ls\\)\\|sql\\)\\'" . plsql-mode))
+;;        auto-mode-alist))
+
 
 (eval-after-load "sql"
    (load-library "sql-indent"))
@@ -39,26 +46,14 @@ This is used to set `sql-alternate-buffer-name' within
             (sql-rename-buffer)))
 
 
+(setq sql-mysql-options '("-A"))
+
 (defadvice sql-connect-mysql (around sql-mysql-port activate)
   "Add support for connecting to MySQL on other ports"
   (let ((sql-mysql-options (or (and (boundp 'sql-port) sql-port (cons (concat "-P " (or (and (numberp sql-port) (number-to-string sql-port)) sql-port)) sql-mysql-options)) sql-mysql-options)))
     ad-do-it))
 
-(setq sql-connection-alist
-      '((pool-a
-         (sql-product 'mysql)
-         (sql-server "l-log1.ops.cn1.qunar.com")
-         (sql-user "root")
-         (sql-password "server251@fangzhuang")
-         (sql-database "logstat")
-         (sql-port 3306))
-        (pool-b
-         (sql-product 'mysql)
-         (sql-server "1.2.3.4")
-         (sql-user "me")
-         (sql-password "mypassword")
-         (sql-database "thedb")
-         (sql-port 3307))))
+(load "~/.emacs.d/sql-servers")
 
 (defun sql-connect-preset (name)
   "Connect to a predefined SQL connection listed in `sql-connection-alist'"
@@ -69,5 +64,18 @@ This is used to set `sql-alternate-buffer-name' within
 (defun sql-pool-a ()
   (interactive)
   (sql-connect-preset 'pool-a))
+
+
+(defun sql-tidy-region (beg end)
+  "Beautify SQL in region between beg and END."
+  (interactive "r")
+  (save-excursion
+    (shell-command-on-region beg end "sqltidy")))
+
+(defun sql-tidy-buffer ()
+ "Beautify SQL in buffer."
+ (interactive)
+ (sql-tidy-region (point-min) (point-max)))
+
 
 (provide 'wd-sql)
