@@ -156,14 +156,14 @@
 ;;
 ;; twiki
 ;;
-(require 'erin)
-(add-to-list 'auto-mode-alist
-'("\\twiki.*\\'" . erin-mode))
+;; (require 'erin)
+;; (add-to-list 'auto-mode-alist
+;; '("\\twiki.*\\'" . erin-mode))
 
 ;;
 ;; python-mode
 ;;
-(require 'ipython)
+;; (require 'ipython)
 (autoload 'python-mode "python-mode" "Python Mode." t)
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
@@ -188,9 +188,6 @@
 ;;
 
 (require 'weblogger)
-
-(custom-set-variables
- '(weblogger-config-alist (quote (("default" ("user" . "admin") ("server-url" . "http://wdicc.com/xmlrpc.php") ("weblog" . "1"))))))
 
 (setq weblogger-server-password weblogger-pass)
 
@@ -219,15 +216,6 @@
 ;;
 
 ;;(require 'muse-html)
-
-;;
-;; sql-mode
-;;
-(autoload 'Sql-mode "sql-mode" "SQL Mode." t)
-(add-to-list 'auto-mode-alist '("\\.sql\\'" . sql-mode))
-
-(eval-after-load "sql"
-   (load-library "sql-indent"))
 
 ;;
 ;; perl-mode
@@ -325,7 +313,7 @@
 
 (require 'tramp)
 (setq tramp-default-method "ssh")
-(setq tramp-default-user "stefdong")
+(setq tramp-default-user "dong.wang")
 
 (add-to-list 'tramp-default-user-alist '(nil "\\`test\\'" "wd"))
 
@@ -383,18 +371,35 @@ This will also reserve changes already made by a non-root user."
 ;; twittering-mode
 ;; 
 (require 'twittering-mode)
-(setq twittering-host-url "wdtwitter.appspot.com")
-(setq twittering-api-url  "wdtwitter.appspot.com/api/")
-(setq twittering-search-url "wdtwitter.appspot.com/search/")
+;; (setq twittering-web-host "wdtwitter.appspot.com")
+;; (setq twittering-api-host  "wdtwitter.appspot.com/api/")
+;; (setq twittering-api-search-host "wdtwitter.appspot.com/search/")
+
+(setq twittering-proxy-use t
+      twittering-proxy-server "127.0.0.1"
+      twittering-proxy-port 8118)
+
 (setq twittering-username "wd"
     twittering-password twittering-pass)
 
-(setq global-mode-string (list ""
-              twittering-unread-mode-line-string ))
 (twittering-icon-mode 1)
-(setq twittering-use-ssl nil)
+(setq twittering-use-ssl 1)
 (setq twittering-fill-column 40)
 
+(setq twittering-status-format
+      "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{ %T}\n"
+      ;; "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{%T}\n"
+      )
+
+(setq twittering-update-status-function
+      'twittering-update-status-from-pop-up-buffer)
+
+(setq twittering-url-show-status nil)
+
+(add-hook 'twittering-mode-hook (lambda ()
+                                  (twittering-icon-mode 1)
+                                  (setq twittering-reverse-mode t)
+                                  (twittering-enable-unread-status-notifier)))
 ;; 
 ;; sl-mode
 ;; 
@@ -490,8 +495,7 @@ This will also reserve changes already made by a non-root user."
 ;; 
 
 (add-hook 'eshell-load-hook
-          (lambda ()
-            (highlight-tail-mode -1)))
+            (highlight-tail-mode -1))
 
 ;; add command 'e' to open files
 (defun eshell/e (&rest args)
@@ -536,5 +540,26 @@ This will also reserve changes already made by a non-root user."
 (setq whitespace-style '(trailing tabs))
 (global-whitespace-mode)
 
+
+;;
+;; 
+;; (require 'drkm-fav)
+
+;; (setq drkm-fav:favourite-directories-alist
+;;   '(("home"  . "/bood@remote.host.com:~")
+;;     ("kernow-src" . "")))
+;; 
+;;  confluence
+;; 
+;; (require 'confluence)
+;; (add-to-list 'auto-mode-alist
+;;              '("\\wiki.corp.qunar.com.*\\'" . confluence-mode))
+
+
+;; 
+;; pde
+;; 
+(load "pde-load")
+(setq perldoc-cache-el "~/.emacs.d/perldoc_cache.el")
 
 (provide 'wd-misc)
