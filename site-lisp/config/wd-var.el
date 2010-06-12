@@ -3,7 +3,7 @@
   (if (>
        (length
         (shell-command-to-string
-         "grep ali.com /etc/resolv.conf")) 0)
+         "grep qunar /etc/resolv.conf")) 0)
       t
     nil)
   )
