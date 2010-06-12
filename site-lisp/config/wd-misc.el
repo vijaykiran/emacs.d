@@ -398,7 +398,7 @@ This will also reserve changes already made by a non-root user."
 
 (add-hook 'twittering-mode-hook (lambda ()
                                   (twittering-icon-mode 1)
-                                  (setq twittering-reverse-mode t)
+                                  ;; (setq twittering-reverse-mode t)
                                   (twittering-enable-unread-status-notifier)))
 ;; 
 ;; sl-mode
@@ -561,5 +561,24 @@ This will also reserve changes already made by a non-root user."
 ;; 
 (load "pde-load")
 (setq perldoc-cache-el "~/.emacs.d/perldoc_cache.el")
+
+(defalias 'perl-mode 'cperl-mode)
+(defun pde-perl-mode-hook ()
+  (add-to-list 'cperl-style-alist
+               '("PDE"
+                 (cperl-auto-newline                         . nil)
+                 (cperl-brace-offset                         . 0)
+                 (cperl-close-paren-offset                   . -4)
+                 (cperl-continued-brace-offset               . 0)
+                 (cperl-continued-statement-offset           . 4)
+                 (cperl-extra-newline-before-brace           . nil)
+                 (cperl-extra-newline-before-brace-multiline . nil)
+                 (cperl-indent-level                         . 4)
+                 (cperl-indent-parens-as-block               . t)
+                 (cperl-label-offset                         . -4)
+                 (cperl-merge-trailing-else                  . t)
+                 (cperl-tab-always-indent                    . t)))
+  (cperl-set-style "PDE"))
+
 
 (provide 'wd-misc)
