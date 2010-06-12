@@ -2,12 +2,19 @@
 (setq gnus-startup-file "~/Mail/.newsrc")
 
 (setq
- gnus-select-method '(nnmaildir "Alibaba" (directory "~/Mail/"))
- mail-sources '((maildir :path "~/Mail/" :subdirs ("cur" "new" "tmp")))
+ gnus-select-method '(nnmaildir "Company" (directory "~/Mail/company"))
+ mail-sources '((maildir :path "~/Mail/company" :subdirs ("cur" "new" "tmp")))
  mail-source-delete-incoming t
  )
 
 ;; 发送邮件
+(add-hook 'message-send-hook (lambda()
+                               (if (string-match ".*qunar.com" user-mail-address)
+                                   (setq message-sendmail-extra-arguments '("-a" "company"))
+                                 (setq message-sendmail-extra-arguments '("-a" "wdicc"))
+                                 )
+))
+
 (setq send-mail-function 'sendmail-send-it         ;设置邮件发送方法
       message-send-mail-function 'sendmail-send-it ;设置消息发送方法
       sendmail-program "/usr/bin/msmtp"            ;设置发送程序
@@ -19,8 +26,7 @@
 (setq gnus-message-archive-group                   ;设置消息归档的组
       '((if (message-news-p)
             "nnfolder+archive:nnfolder"             ;新闻归档
-          "nnmaildir+Alibaba:sent")))                ;邮件归档
-
+          "nnmaildir+Company:sent")))                ;邮件归档
 
 (setq gnus-inhibit-startup-message t)               ;关闭启动时的画面
 (setq message-confirm-send t)                       ;防止误发邮件, 发邮件前需要确认
@@ -111,11 +117,20 @@
 (add-hook 'gnus-summary-exit-hook 'gnus-group-first-unread-group)    ;退出Summary时
 
 ;; 自动更新新消息
-(require 'gnus-notify+)
-(add-hook 'gnus-summary-exit-hook 'gnus-notify+)        ;退出summary模式后
-(add-hook 'gnus-group-catchup-group-hook 'gnus-notify+) ;当清理当前组后
-(add-hook 'mail-notify-pre-hook 'gnus-notify+)          ;更新邮件时
-;; (add-hook 'gnus-after-getting-new-news-hook 'gnus-notify+)
+;;(require 'gnus-notify+)
+;;(add-hook 'gnus-summary-exit-hook 'gnus-notify+)        ;退出summary模式后
+;;(add-hook 'gnus-group-catchup-group-hook 'gnus-notify+) ;当清理当前组后
+;;(add-hook 'mail-notify-pre-hook 'gnus-notify+)          ;更新邮件时
+;;(add-hook 'gnus-after-getting-new-news-hook 'gnus-notify+)
+;;
+(require 'binjo-gnus-notify)
+(binjo-gnus-enable-unread-notify)
+(eval-after-load 'binjo-gnus-notify
+    '(setq binjo-gnus-notify-groups
+        '("inbox"
+          "search"
+          "all"
+          "flight")))
 
 ;; 斑纹化
 (setq gnus-summary-stripe-regexp        ;设置斑纹化匹配的正则表达式
@@ -184,10 +199,45 @@
             (gnus-demon-add-handler 'gnus-group-get-new-news 3 nil)
             (gnus-demon-init)))
 
-;; gnus-posting-styles
+;; check if at company group
+;; (defun posting-from-work-p()
+;;   )
+
+;; gnus-posting-styles and some specific settings
 (load "~/Mail/.gnus-posting-style")
 
 ;; auto complete some email address
-(add-to-list 'ac-dictionary-directories "~/Mail/.ac-dict")
+;; (add-to-list 'ac-dictionary-directories "~/Mail/.ac-dict")
+
+;; Disable CC: to self in wide replies and stuff
+(setq message-dont-reply-to-names gnus-ignored-from-addresses)
+
+;; top post
+;; (setq message-cite-reply-above 't)
+
+;;
+;; bbdb
+;;
+(require 'bbdb)
+(bbdb-initialize)
+(add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+;; bbdb 自己检查你填写的电话是否符合北美标准，
+;; 如果你不是生活在北美，应该取消这种检查
+(setq bbdb-north-american-phone-numbers-p nil)
+
+;; 把你的 email 地址告诉 bbdb
+;; (setq bbdb-user-mail-names
+;;       (regexp-opt '(""
+;;                     "brep@newsmth.org")))
+
+;; 补全 email 地址的时候循环往复
+(setq bbdb-complete-name-allow-cycling t)
+;; No popup-buffers
+(setq bbdb-use-pop-up nil)
+
+
+;;
+;; view url in article mode
+(define-key gnus-article-mode-map "v" 'browse-url-at-point)
 
 (provide 'wd-gnus)
