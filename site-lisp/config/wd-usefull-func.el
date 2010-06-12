@@ -109,7 +109,8 @@
 
 (defun wd-send-tray-notify (title message)
     (let ((default-directory "~/"))
-      (start-process "page-me" nil "kdialog" "--title" title  "--passivepopup" message "60")))
+      ;; (start-process "page-me" nil "kdialog" "--title" title  "--passivepopup" message "60")))
+      (start-process "page-me" nil "/usr/bin/notify-send" "-i" "/usr/share/pixmaps/gnome-irc.png" title message)))
 
 
 (provide 'wd-usefull-func)
