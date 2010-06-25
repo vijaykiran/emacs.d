@@ -4,6 +4,7 @@
 
 (require 'wd-var)
 (require 'wd-misc)
+(require 'wd-emms)
 (require 'wd-erc)
 (require 'wd-usefull-func)
 (require 'wd-dict)

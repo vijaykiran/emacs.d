@@ -70,7 +70,7 @@ This is used to set `sql-alternate-buffer-name' within
   "Beautify SQL in region between beg and END."
   (interactive "r")
   (save-excursion
-    (shell-command-on-region beg end "sqltidy")))
+    (shell-command-on-region beg end "/home/wd/bin/sqltidy" nil t)))
 
 (defun sql-tidy-buffer ()
  "Beautify SQL in buffer."

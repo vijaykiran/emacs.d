@@ -130,6 +130,9 @@
         '("inbox"
           "search"
           "all"
+          "tech"
+          "mon"
+          "trash"
           "flight")))
 
 ;; 斑纹化

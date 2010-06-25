@@ -82,7 +82,7 @@
 (defun erc-send-tray-notify (nick message)
     (let ((default-directory "~/"))
       (setq realnick (elt (split-string nick "!") 0))
-      (wd-send-tray-notify (format "ERC: %s says" realnick) (format "%s" message))))
+      (wd-send-tray-notify "/data/misc/irc.png" (format "ERC: %s says" realnick) (format "%s" message))))
 
 ;; use this to auto cancel notify
 ;; (add-hook 'erc-send-pre-hook

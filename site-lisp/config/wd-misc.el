@@ -580,5 +580,4 @@ This will also reserve changes already made by a non-root user."
                  (cperl-tab-always-indent                    . t)))
   (cperl-set-style "PDE"))
 
-
 (provide 'wd-misc)
