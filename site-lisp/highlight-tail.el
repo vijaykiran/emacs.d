@@ -1090,11 +1090,13 @@ If ARG is greater than zero then this mode will be turned on."
         (message "Highlight tail mode enabled"))
     (progn
       (highlight-tail-tide-up)
-      (if (equal window-system nil)
-          (message
-           "Highlight-tail-mode will not start because not running under \
-window system.")
-        (message "Highlight tail mode disabled")))))
+;;       (if (equal window-system nil)
+;;           (message
+;;            "Highlight-tail-mode will not start because not running under \
+;; window system.")
+        ;; (message "Highlight tail mode disabled")))))
+        (message "Highlight tail mode disabled")
+        )))
 (provide 'highlight-tail)
 
 ;;; highlight-tail.el ends here
