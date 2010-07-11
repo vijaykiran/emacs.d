@@ -58,6 +58,7 @@
       '(
         ("oftc.net"
          "#openbox-cn"
+         "#arch-cn"
          "#emacs-cn")
         ("iioftc.net"
          "#wd")
