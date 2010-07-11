@@ -106,11 +106,23 @@
 
 (auto-complete-mode-maybe)
 
-
+;; tray notify
 (defun wd-send-tray-notify (icon title message)
     (let ((default-directory "~/"))
       ;; (start-process "page-me" nil "kdialog" "--title" title  "--passivepopup" message "60")))
       (start-process "page-me" nil "/usr/bin/notify-send" "-i" icon title message)))
 
+
+; ================================
+;;  % for paren match
+;; ================================
+(global-set-key "%" 'match-paren)
+
+(defun match-paren (arg)
+  "Go to the matching paren if on a paren; otherwise insert %."
+  (interactive "p")
+  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
+        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+        (t (self-insert-command (or arg 1)))))
 
 (provide 'wd-usefull-func)
