@@ -400,6 +400,9 @@ This will also reserve changes already made by a non-root user."
                                   (twittering-icon-mode 1)
                                   ;; (setq twittering-reverse-mode t)
                                   (twittering-enable-unread-status-notifier)))
+
+;; (setq twittering-use-master-password t )
+
 ;; 
 ;; sl-mode
 ;; 
