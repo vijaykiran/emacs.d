@@ -229,6 +229,6 @@
      ))
 
 ;当播放完当前的歌曲时随机选择下一首歌曲
-(add-hook 'emms-player-finished-hook 'emms-random)
+;; (add-hook 'emms-player-finished-hook 'emms-random)
 
 (provide 'wd-emms)
