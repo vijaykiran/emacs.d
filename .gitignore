@@ -3,3 +3,5 @@ auto-save-list/
 backups/
 perldoc_cache.el
 sql-servers
+/emms/emms-cache
+/emms/emms-history
