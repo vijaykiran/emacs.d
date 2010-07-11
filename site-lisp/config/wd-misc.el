@@ -498,7 +498,8 @@ This will also reserve changes already made by a non-root user."
 ;; 
 
 (add-hook 'eshell-load-hook
-            (highlight-tail-mode -1))
+          (lambda ()
+            (highlight-tail-mode -1)))
 
 ;; add command 'e' to open files
 (defun eshell/e (&rest args)
