@@ -590,4 +590,10 @@ This will also reserve changes already made by a non-root user."
 
 (require 'magit)
 
+;;
+;; rainbow-mode
+;;
+
+(require 'rainbow-mode)
+
 (provide 'wd-misc)
