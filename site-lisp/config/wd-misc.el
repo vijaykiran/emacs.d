@@ -202,14 +202,53 @@
 ;;
 
 ;; (setq org-agenda-files '("~/org"))
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-;; (define-key global-map "\C-cl" 'org-store-link)
-;; (define-key global-map "\C-ca" 'org-agenda)
-;; (setq org-log-done 'time)
-;; turn on soft wrapping mode for org mode
-;; (add-hook 'org-mode-hook
-;;  (lambda () (setq truncate-lines nil)))
-;; (setq org-log-done 'note)
+(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-set-local 'yas/trigger-key [tab])
+            (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+
+
+(setq org-default-notes-file "~/org/todo.org")
+
+;;;  Load Org Remember Stuff
+(require 'remember)
+(org-remember-insinuate)
+
+;; Start clock in a remember buffer and switch back to previous clocking task on save
+;; (add-hook 'remember-mode-hook 'org-clock-in 'append)
+;; (add-hook 'org-remember-before-finalize-hook 'bh/clock-in-interrupted-task)
+
+;; I use C-M-r to start org-remember
+(global-set-key (kbd "C-c m r") 'org-remember)
+;; (define-key global-map "\C-cr" 'org-remember)
+
+;; Keep clocks running
+(setq org-remember-clock-out-on-exit nil)
+
+;; C-c C-c stores the note immediately
+(setq org-remember-store-without-prompt t)
+
+;; I don't use this -- but set it in case I forget to specify a location in a future template
+(setq org-remember-default-headline "Tasks")
+
+;; 3 remember templates for TODO tasks, Notes, and Phone calls
+(setq org-remember-templates (quote (("todo" ?t "** TODO %?\nCREATED: %U" nil nil nil)
+                                     ;; ("note" ?n "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:" nil bottom nil)
+                                     ;; ("appointment" ?a "* %?\n  %U" "~/git/org/todo.org" "Appointments" nil)
+                                     ;; ("org-protocol" ?w "* TODO Review %c%!\n  %U" nil bottom nil))))
+                                     )))
+
+
+
 
 ;;
 ;; muse
@@ -244,7 +283,7 @@
 
 
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp//ac-dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/ac-dict")
 (require 'auto-complete-yasnippet)
 
 ;; (ac-config-default)
@@ -267,6 +306,7 @@
 (define-key ac-complete-mode-map "\t" 'ac-complete)
 (define-key ac-complete-mode-map "\r" nil)
 (setq ac-dwim t)
+
 
 ;;
 ;; high light tail
@@ -291,21 +331,21 @@
 ;;
 
 ;; use view mode when press C-x C-q
-(setq view-read-only t)
+;; (setq view-read-only t)
 
-(add-hook 'find-file-hook
-      (lambda ()
-        (view-mode t)))
+;; (add-hook 'find-file-hook
+;;       (lambda ()
+;;         (view-mode t)))
 
-(defun view-mode-keybinding-hook ()
-  (define-key view-mode-map "h" 'backward-char)
-  (define-key view-mode-map "l" 'forward-char)
-  (define-key view-mode-map "j" 'next-line)
-  (define-key view-mode-map "k" 'previous-line)
-  (define-key view-mode-map "b" 'scroll-down)
-  (define-key view-mode-map "f" 'scroll-up))
+;; (defun view-mode-keybinding-hook ()
+;;   (define-key view-mode-map "h" 'backward-char)
+;;   (define-key view-mode-map "l" 'forward-char)
+;;   (define-key view-mode-map "j" 'next-line)
+;;   (define-key view-mode-map "k" 'previous-line)
+;;   (define-key view-mode-map "b" 'scroll-down)
+;;   (define-key view-mode-map "f" 'scroll-up))
 
-(add-hook 'view-mode-hook 'view-mode-keybinding-hook)
+;; (add-hook 'view-mode-hook 'view-mode-keybinding-hook)
 
 ;; 
 ;; tramp
@@ -400,6 +440,9 @@ This will also reserve changes already made by a non-root user."
                                   (twittering-icon-mode 1)
                                   ;; (setq twittering-reverse-mode t)
                                   (twittering-enable-unread-status-notifier)))
+
+(setq twittering-retweet-format "RT @%s: %t")
+
 
 ;; (setq twittering-use-master-password t )
 
