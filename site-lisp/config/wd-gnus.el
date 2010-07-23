@@ -133,6 +133,7 @@
           "tech"
           "mon"
           "trash"
+          "avatar"
           "flight")))
 
 ;; 斑纹化
