@@ -1,0 +1,7 @@
+#name : diagraph G { }
+# --
+digraph G {
+    label = "$1";
+    labelloc = t;
+    $0
+}
