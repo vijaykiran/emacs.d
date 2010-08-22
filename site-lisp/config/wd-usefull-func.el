@@ -149,3 +149,22 @@ that was stored with ska-point-to-register."
   (let ((tmp (point-marker)))
     (jump-to-register 8)
     (set-register 8 tmp)))
+
+
+;; highlight TODO, FIXME, BUG kw
+(defface sl-highlight-todo-face
+  '((t :weight bold
+       :foreground "red"
+       :background "yellow"))
+  "Highlight Todo")
+
+(defvar sl-highlight-todo-keywords "\\<\\(FIXME\\|TODO\\|BUG\\):")
+(defun sl-highlight-todo ()
+   (font-lock-add-keywords
+    nil
+    `((,sl-highlight-todo-keywords
+       1 'sl-highlight-todo-face t))))
+
+(defun sl-list-todo ()
+  (interactive)
+  (occur sl-highlight-todo-keywords))

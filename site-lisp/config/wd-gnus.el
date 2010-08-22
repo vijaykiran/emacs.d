@@ -1,4 +1,3 @@
-
 (setq gnus-startup-file "~/Mail/.newsrc")
 
 (setq
@@ -21,7 +20,16 @@
       mail-specify-envelope-from t                 ;发送邮件时指定信封来源
       mail-envelope-from 'header)                  ;信封来源于 header
 
-(setq gnus-secondary-select-methods nil)
+;; (setq gnus-secondary-select-methods nil)
+;; (setq gnus-secondary-select-methods '((nntp "news.cn99.com")))
+(setq gnus-secondary-select-methods '((nntp "localhost")))
+
+;; (add-to-list 'gnus-secondary-select-methods '(nnimap "gmail"
+;;                                   (nnimap-address "imap.gmail.com")
+;;                                   (nnimap-server-port 993)
+;;                                   (nnimap-stream ssl)))
+
+
 
 (setq gnus-message-archive-group                   ;设置消息归档的组
       '((if (message-news-p)
@@ -45,6 +53,8 @@
 (setq mm-inline-large-images t)                       ;显示内置图片
 (auto-image-file-mode)                                ;自动加载图片
 (add-to-list 'mm-attachment-override-types "image/*") ;附件显示图片
+(setq w3m-default-display-inline-images t)
+
 ;; 概要显示设置
 (setq gnus-summary-gather-subject-limit 'fuzzy) ;聚集题目用模糊算法
 (setq gnus-summary-line-format "%4P %U%R%z%O %{%5k%} %{%14&user-date;%}   %{%-20,20n%} %{%ua%} %B %(%I%-60,60s%)\n")
@@ -184,8 +194,9 @@
 ;; (setq gnus-permanently-visible-groups "gmail")
 
 ;; ;; ENCODING
+;; (setq gnus-group-name-charset-method-alist
+;;       '(((nntp "news.cn99.com") . cn-gb-2312)))
 (setq gnus-default-charset 'utf-8
-      gnus-group-name-charset-group-alist '(("abbbbb" . chinese-iso-8bit))
       gnus-summary-show-article-charset-alist
       '((1 . chinese-iso-8bit)
         (2 . gbk)

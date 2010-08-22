@@ -269,6 +269,9 @@
 (global-set-key (kbd "C-;") 'comment-dwim)
 (add-hook 'cperl-mode-hook (lambda () (abbrev-mode -1)))
 
+(add-hook 'cperl-mode-hook 'sl-highlight-todo)
+
+
 ;;
 ;; snippet
 ;;
@@ -419,8 +422,8 @@ This will also reserve changes already made by a non-root user."
       twittering-proxy-server "127.0.0.1"
       twittering-proxy-port 8118)
 
-(setq twittering-username "wd"
-    twittering-password twittering-pass)
+;; (setq twittering-username "wd"
+;;     twittering-password twittering-pass)
 
 (twittering-icon-mode 1)
 (setq twittering-use-ssl 1)
@@ -443,6 +446,9 @@ This will also reserve changes already made by a non-root user."
 
 (setq twittering-retweet-format "RT @%s: %t")
 
+;; (setq twittering-auth-method 'basic )
+(setq twittering-auth-method 'oauth)
+(setq twittering-use-master-password t)
 
 ;; (setq twittering-use-master-password t )
 
@@ -638,5 +644,12 @@ This will also reserve changes already made by a non-root user."
 ;;
 
 (require 'rainbow-mode)
+
+;;
+;; smart mark
+;;
+
+(require 'smart-mark)
+;; type C-M-m and then following the prompt.
 
 (provide 'wd-misc)
