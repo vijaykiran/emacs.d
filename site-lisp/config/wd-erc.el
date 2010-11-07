@@ -45,6 +45,7 @@
   (unless oftc-wd-pass
     (setq oftc-wd-pass (read-passwd "irc.oftc.net password: ")))
   (erc :server "irc.oftc.net" :port 6667 :nick "wd" :password oftc-wd-pass)
+  (erc :server "irc.freenode.net" :port 6667 :nick "wd_afei" :password oftc-wd-pass)
   (if (wd-at-company)
       (erc :server "www.pgsqldb.org" :port 34567 :nick "wd")
       ;; (erc :server "10.62.163.59" :port 6667 :nick "wd")
@@ -60,6 +61,8 @@
          "#openbox-cn"
          "#arch-cn"
          "#emacs-cn")
+        ("freenode.net"
+         "#openresty")
         ("iioftc.net"
          "#wd")
         ("EEEE"
