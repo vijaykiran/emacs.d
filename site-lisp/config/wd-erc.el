@@ -231,4 +231,13 @@ matches a regexp in `erc-keywords'."
 
 (add-hook 'erc-after-connect 'xwl-erc-auto-identify)
 
+(defun wd-clear-erc-notify ()
+  "clear all notify by erc at once"
+  (interactive)
+  (setq erc-modified-channels-alist nil
+        erc-modified-channels-object "")
+  (erc-modified-channels-update))
+
+(global-set-key (kbd "C-c n C") 'wd-clear-erc-notify)
+
 (provide 'wd-erc)
