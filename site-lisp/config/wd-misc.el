@@ -508,25 +508,25 @@ This will also reserve changes already made by a non-root user."
 ;; twittering-mode
 ;; 
 (require 'twittering-mode)
-;; (setq twittering-web-host "wdtwitter.appspot.com")
-;; (setq twittering-api-host  "wdtwitter.appspot.com/api/")
-;; (setq twittering-api-search-host "wdtwitter.appspot.com/search/")
+(setq twittering-web-host "wdtwitter.appspot.com")
+(setq twittering-api-host  "wdtwitter.appspot.com/api")
+(setq twittering-api-search-host "wdtwitter.appspot.com/search")
 
-(setq twittering-proxy-use t
-      twittering-proxy-server "127.0.0.1"
-      twittering-proxy-port 8118)
+;; (setq twittering-proxy-use t
+;;       twittering-proxy-server "127.0.0.1"
+;;       twittering-proxy-port 8118)
 
-;; (setq twittering-username "wd"
-;;     twittering-password twittering-pass)
+(setq twittering-username "wd"
+    twittering-password )
 
 (twittering-icon-mode 1)
-(setq twittering-use-ssl 1)
+(setq twittering-use-ssl nil)
 (setq twittering-fill-column 40)
 
-(setq twittering-status-format
-      "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{ %T}\n"
-      ;; "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{%T}\n"
-      )
+;; (setq twittering-status-format
+;;       "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{ %T}\n"
+;;       ;; "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{%T}\n"
+;;       )
 
 (setq twittering-update-status-function
       'twittering-update-status-from-pop-up-buffer)
