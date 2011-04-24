@@ -23,9 +23,9 @@
 ;(setq term-term-name "linux")
 
 ;; modify ls colors (i cannot read directory name under tango theme)
-(setq ansi-term-color-vector
-  [unspecified "black" "red3" "lime green" "yellow3" "DeepSkyBlue3"
-   "magenta3" "cyan3" "white"])
+;; (setq ansi-term-color-vector
+;;   [unspecified "black" "red3" "lime green" "yellow3" "DeepSkyBlue3"
+;;    "magenta3" "cyan3" "white"])
 
 ;; global terminal buffer list
 (defvar sl-term-list nil

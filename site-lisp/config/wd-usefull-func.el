@@ -116,16 +116,20 @@
 ; ================================
 ;;  % for paren match
 ;; ================================
-(global-set-key "%" 'match-paren)
+;; (global-set-key "%" 'match-paren)
 
-(defun match-paren (arg)
-  "Go to the matching paren if on a paren; otherwise insert %."
+(defun goto-match-paren (arg)
+  "Go to the matching  if on (){}[], similar to vi style of % "
   (interactive "p")
-  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-        (t (self-insert-command (or arg 1)))))
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
 
-(provide 'wd-usefull-func)
+(global-set-key (kbd "C-%") 'goto-match-paren)
 
 ;;
 ;; 使用 C-. 标记， C-, 切换
@@ -168,3 +172,29 @@ that was stored with ska-point-to-register."
 (defun sl-list-todo ()
   (interactive)
   (occur sl-highlight-todo-keywords))
+
+(defun yank-pop-forwards (arg)
+  (interactive "p")
+  (yank-pop (- arg)))
+(global-set-key "\M-Y" 'yank-pop-forwards) ; M-Y (Meta-Shift-Y)
+
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (if (not (minibuffer-prompt))
+      (let ((matching-text nil))
+        ;; Only call `blink-matching-open' if the character before point
+        ;; is a close parentheses type character. Otherwise, there's not
+        ;; really any point, and `blink-matching-open' would just echo
+        ;; "Mismatched parentheses", which gets really annoying.
+        (if (char-equal (char-syntax (char-before (point))) ?\))
+            (setq matching-text (blink-matching-open)))
+        (if (not (null matching-text))
+            (message matching-text)))))
+
+
+
+(provide 'wd-usefull-func)

@@ -19,7 +19,7 @@
 ;; ;; (setq twittering-api-host  "wdtwitter.appspot.com/api")
 ;; (setq twittering-api-search-host "wdtwitter.appspot.com/search")
 
-;; (setq twittering-api-host  "wdicc.com/xxxx/o/wd/SOSYKW")
+;; (setq twittering-api-host  "https://wdicc.com/xxxx/o/wd/966DAT")
 ;; (setq twittering-url-request-resolving-p nil)
 
 ;; twittering-mode

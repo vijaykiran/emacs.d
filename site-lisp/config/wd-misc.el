@@ -4,12 +4,14 @@
 
 (load "~/.pwds")
 
-;; (setq browse-url-browser-function 'browse-url-generic
-;;       browse-url-generic-program "chromium")
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "chromium")
+;; (setq browse-url-browser-function 'browse-url-firefox
+;;       browse-url-new-window-flag  t
+;;       browse-url-firefox-new-window-is-tab t)
 
 
-(setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
-;; (setq wd-make-env "LZ_HOST=t.api.linezing.com:9999 ")
+;; (setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
 
 ;; Way 2
 ;; (let ((fontset (frame-parameter nil 'font))
@@ -23,12 +25,13 @@
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
 ;(let ((zh-font "-unknown-AR PL UMing CN-*-*-*-*-16-*-*-*-*-*-*-*")
-(let ((zh-font "WenQuanYi Zen Hei:pixelsize=16")
+;; (let ((zh-font "WenQuanYi Zen Hei:pixelsize=16")
+(let ((zh-font "STHeiTi:pixelsize=18")
       (fontset "fontset-my"))
   (create-fontset-from-fontset-spec
     (concat
-      "-unknown-DejaVu Sans Mono-*-*-*-*-14-*-*-*-*-*-" fontset
-      ;; "-unknown-Monaco-*-*-*-*-15-*-*-*-*-*-" fontset
+      ;; "-unknown-DejaVu Sans Mono-*-*-*-*-15-*-*-*-*-*-" fontset
+      "-unknown-Monaco-*-*-*-*-15-*-*-*-*-*-" fontset
       ",kana:"          zh-font
       ",han:"           zh-font
       ",symbol:"        zh-font
@@ -101,8 +104,14 @@
 ;;     ) t
 ;; ))
 
+
+
 (require 'color-theme-hober2)
 (color-theme-hober2)
+;; (require 'color-theme-solarized)
+;; (color-theme-solarized-dark)
+;; (require 'zenburn)
+;; (color-theme-zenburn)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -113,18 +122,21 @@
 
 ;; 和x公用剪贴板
 (setq x-select-enable-clipboard t)
+;; (setq x-select-enable-primary t)
 
 ;;'y' for 'yes', 'n' for 'no'
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;;禁用启动信息
 (setq inhibit-startup-message t)
+(setq initial-scratch-message "")
 ;; 显示列号
 (setq column-number-mode t) 
 
 ;; 防止页面滚动时跳动， scroll-margin 3 可以在靠近屏幕边沿3行时就开始滚动，可以很好的看到上下文。
 (setq scroll-margin 3
-            scroll-conservatively 10000)
+      scroll-conservatively 2)
+;; highlight-parentness-mode
 
 ;;关闭烦人的出错时的提示声
 ;;(setq visible-bell t)
@@ -241,6 +253,8 @@
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 (global-set-key (kbd "C-x C-d") 'ido-dired)
+(setq ido-max-directory-size 100000)
+
 
 (require 'uniquify)
 (setq
@@ -281,68 +295,15 @@
 ;; weblogger mode
 ;;
 
-(require 'weblogger)
+;; (require 'weblogger)
 
-(setq weblogger-server-password weblogger-pass)
+;; (setq weblogger-server-password weblogger-pass)
 
-(add-hook 'weblogger-start-edit-entry-hook (lambda()
-    (auto-fill-mode -1)
-    (abbrev-mode -1)
-    (auto-complete-mode 1)
-    ))
-
-;;
-;; org-mode
-;;
-
-;; (setq org-agenda-files '("~/org"))
-(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-set-local 'yas/trigger-key [tab])
-            (define-key yas/keymap [tab] 'yas/next-field-group)))
-
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
-
-
-(setq org-default-notes-file "~/org/todo.org")
-
-;;;  Load Org Remember Stuff
-(require 'remember)
-(org-remember-insinuate)
-
-;; Start clock in a remember buffer and switch back to previous clocking task on save
-;; (add-hook 'remember-mode-hook 'org-clock-in 'append)
-;; (add-hook 'org-remember-before-finalize-hook 'bh/clock-in-interrupted-task)
-
-;; I use C-M-r to start org-remember
-(global-set-key (kbd "C-c m r") 'org-remember)
-;; (define-key global-map "\C-cr" 'org-remember)
-
-;; Keep clocks running
-(setq org-remember-clock-out-on-exit nil)
-
-;; C-c C-c stores the note immediately
-(setq org-remember-store-without-prompt t)
-
-;; I don't use this -- but set it in case I forget to specify a location in a future template
-(setq org-remember-default-headline "Tasks")
-
-;; 3 remember templates for TODO tasks, Notes, and Phone calls
-(setq org-remember-templates (quote (("todo" ?t "** TODO %?\nCREATED: %U" nil nil nil)
-                                     ;; ("note" ?n "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:" nil bottom nil)
-                                     ;; ("appointment" ?a "* %?\n  %U" "~/git/org/todo.org" "Appointments" nil)
-                                     ;; ("org-protocol" ?w "* TODO Review %c%!\n  %U" nil bottom nil))))
-                                     )))
-
-
-
+;; (add-hook 'weblogger-start-edit-entry-hook (lambda()
+;;     (auto-fill-mode -1)
+;;     (abbrev-mode -1)
+;;     (auto-complete-mode 1)
+;;     ))
 
 ;;
 ;; muse
@@ -380,39 +341,49 @@
 
 
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/ac-dict")
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/ac-dict")
 (require 'auto-complete-yasnippet)
 
 ;; (ac-config-default)
 
-(set-default 'ac-sources
-             '(;ac-source-semantic
-               ac-source-yasnippet
-               ;ac-source-abbrev
-               ac-source-words-in-buffer
-               ac-source-words-in-all-buffer
-               ;ac-source-imenu
-               ac-source-files-in-current-dir
-               ac-source-dictionary
-               ac-source-filename))
+(defun wd-ac-config ()
+;;  (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+  (set-default 'ac-sources
+               '(;ac-source-semantic
+                 ac-source-yasnippet
+                 ac-source-abbrev
+                 ac-source-words-in-buffer
+                 ac-source-words-in-all-buffer
+                                        ;ac-source-imenu
+                 ac-source-files-in-current-dir
+                 ac-source-dictionary
+                 ac-source-filename))
+  (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
+  (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+  (add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
+  (add-hook 'css-mode-hook 'ac-css-mode-setup)
+  (add-hook 'auto-complete-mode-hook 'ac-common-setup)
+  (global-auto-complete-mode t))
 
-(global-auto-complete-mode t)
+(wd-ac-config)
+
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 (setq ac-auto-start 3)
 (define-key ac-complete-mode-map "\t" 'ac-complete)
 (define-key ac-complete-mode-map "\r" nil)
+;;(add-to-list 'ac-trigger-commands 'org-self-insert-command)
 (setq ac-dwim t)
 
 
 ;;
 ;; high light tail
 ;; 
-(require 'highlight-tail)
-(setq highlight-tail-colors  '(("#bc2525" . 0)))
-;(setq highlight-tail-colors  '(("#ffd700" . 0)))
-;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
-(highlight-tail-mode)
+;; (require 'highlight-tail)
+;; (setq highlight-tail-colors  '(("#bc2525" . 0)))
+;; ;(setq highlight-tail-colors  '(("#ffd700" . 0)))
+;; ;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
+;; (highlight-tail-mode)
 
 ;; 
 ;; emms
@@ -505,48 +476,6 @@ This will also reserve changes already made by a non-root user."
       ( append '(("\\.tt$" . tt-mode)) auto-mode-alist) )
 
 ;; 
-;; twittering-mode
-;; 
-(require 'twittering-mode)
-(setq twittering-web-host "wdtwitter.appspot.com")
-(setq twittering-api-host  "wdtwitter.appspot.com/api")
-(setq twittering-api-search-host "wdtwitter.appspot.com/search")
-
-;; (setq twittering-proxy-use t
-;;       twittering-proxy-server "127.0.0.1"
-;;       twittering-proxy-port 8118)
-
-(setq twittering-username "wd"
-    twittering-password )
-
-(twittering-icon-mode 1)
-(setq twittering-use-ssl nil)
-(setq twittering-fill-column 40)
-
-;; (setq twittering-status-format
-;;       "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{ %T}\n"
-;;       ;; "%i %C{%a %m.%d/%H:%M:%S} %s, from %f%L%r%R:\n%FILL{%T}\n"
-;;       )
-
-(setq twittering-update-status-function
-      'twittering-update-status-from-pop-up-buffer)
-
-(setq twittering-url-show-status nil)
-
-(add-hook 'twittering-mode-hook (lambda ()
-                                  (twittering-icon-mode 1)
-                                  ;; (setq twittering-reverse-mode t)
-                                  (twittering-enable-unread-status-notifier)))
-
-(setq twittering-retweet-format "RT @%s: %t")
-
-;; (setq twittering-auth-method 'basic )
-(setq twittering-auth-method 'oauth)
-(setq twittering-use-master-password t)
-
-;; (setq twittering-use-master-password t )
-
-;; 
 ;; sl-mode
 ;; 
 (load "sl-term")
@@ -562,16 +491,6 @@ This will also reserve changes already made by a non-root user."
 ;;           (inhibit-read-only t))
 ;;       (highlight-changes-mode -1)
 ;;       (highlight-changes-mode 1))))
-
-;; 
-;; javascript
-;;
-
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-;; (autoload 'javascript-mode "javascript" nil t)
 
 
 ;; 
@@ -607,10 +526,9 @@ This will also reserve changes already made by a non-root user."
                ("dired" (mode . dired-mode))
                ("perl" (mode . cperl-mode))
                ("erc" (mode . erc-mode))
-               ("planner" (or
-                           (name . "^\\*Calendar\\*$")
-                           (name . "^diary$")
-                           (mode . muse-mode)))
+               ("javascript" (mode . js2-mode))
+               ("Org" ;; all org-related buffers
+                (mode . org-mode))
                ("emacs" (or
                          (name . "^\\*scratch\\*$")
                          (name . "^\\*Messages\\*$")))
@@ -640,9 +558,10 @@ This will also reserve changes already made by a non-root user."
 ;; eshell
 ;; 
 
-(add-hook 'eshell-load-hook
-          (lambda ()
-            (highlight-tail-mode -1)))
+;; (add-hook 'eshell-load-hook
+;;           (lambda ()
+;;             (highlight-tail-mode -1)
+;;             ))
 
 ;; add command 'e' to open files
 (defun eshell/e (&rest args)
@@ -745,5 +664,139 @@ This will also reserve changes already made by a non-root user."
 
 (require 'smart-mark)
 ;; type C-M-m and then following the prompt.
+
+
+;;
+;; edit chrome textarea in emacs
+;;
+(require 'edit-server)
+(edit-server-start)
+
+;;
+;; muse-html-slidy
+;;
+
+;; (require 'muse-mode)
+;; (require 'muse-html)
+;; (setq muse-html-slidy-style-dir "/home/wd/work/html-slidy/")
+;; (require 'muse-html-slidy)
+
+
+;;
+;; flyspell
+;;
+
+
+(dolist (hook '(text-mode-hook
+                twittering-edit-mode
+                message-mode
+                ))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+
+;;
+;; register key binding
+;;
+
+(define-prefix-command 'ctl-x-r-map-alias)
+(global-set-key (kbd "<f6>") 'ctl-x-r-map-alias)
+;; (define-key ctl-x-r-map-alias "\C-@" 'point-to-register)
+;; (define-key ctl-x-r-map-alias [?\C-\ ] 'point-to-register)
+;; (define-key ctl-x-r-map-alias " " 'point-to-register)
+(define-key ctl-x-r-map-alias "j" 'jump-to-register)
+;; (define-key ctl-x-r-map-alias "s" 'copy-to-register)
+;; (define-key ctl-x-r-map-alias "x" 'copy-to-register)
+;; (define-key ctl-x-r-map-alias "i" 'insert-register)
+;; (define-key ctl-x-r-map-alias "g" 'insert-register)
+;; (define-key ctl-x-r-map-alias "r" 'copy-rectangle-to-register)
+;; (define-key ctl-x-r-map-alias "n" 'number-to-register)
+;; (define-key ctl-x-r-map-alias "+" 'increment-register)
+(define-key ctl-x-r-map-alias "w" 'window-configuration-to-register)
+;; (define-key ctl-x-r-map-alias "f" 'frame-configuration-to-register)
+
+
+(require 'tiling)
+;; ;;; Windows related operations
+;; ;; Split & Resize
+;; (define-key global-map (kbd "C-x |") 'split-window-horizontally)
+;; (define-key global-map (kbd "C-x _") 'split-window-vertically)
+;; (define-key global-map (kbd "C-{") 'shrink-window-horizontally)
+;; (define-key global-map (kbd "C-}") 'enlarge-window-horizontally)
+;; (define-key global-map (kbd "C-^") 'enlarge-window)
+;; Navgating: Windmove uses C-<up> etc.
+(define-key global-map (kbd "C-<up>"   ) 'windmove-up)
+(define-key global-map (kbd "C-<down>" ) 'windmove-down)
+(define-key global-map (kbd "C-<left>" ) 'windmove-right)
+(define-key global-map (kbd "C-<right>") 'windmove-left)
+;; Swap buffers: M-<up> etc.
+(define-key global-map (kbd "M-<up>"   ) 'buf-move-up)
+(define-key global-map (kbd "M-<down>" ) 'buf-move-down)
+(define-key global-map (kbd "M-<right>") 'buf-move-right)
+(define-key global-map (kbd "M-<left>" ) 'buf-move-left)
+;; ;; Tile
+;; (define-key global-map (kbd "C-\\") 'tiling-cycle) ; accepts prefix number
+;; (define-key global-map (kbd "C-M-<up>") 'tiling-tile-up)
+;; (define-key global-map (kbd "C-M-<down>") 'tiling-tile-down)
+;; (define-key global-map (kbd "C-M-<right>") 'tiling-tile-right)
+;; (define-key global-map (kbd "C-M-<left>") 'tiling-tile-left)
+;; ;; Another type of representation of same keys, in case your terminal doesn't
+;; ;; recognize above key-binding. Tip: C-h k C-up etc. to see into what your
+;; ;; terminal tranlated the key sequence.
+;; (define-key global-map (kbd "M-[ a"     ) 'windmove-up)
+;; (define-key global-map (kbd "M-[ b"     ) 'windmove-down)
+;; (define-key global-map (kbd "M-[ c"     ) 'windmove-right)
+;; (define-key global-map (kbd "M-[ d"     ) 'windmove-left)
+;; (define-key global-map (kbd "ESC <up>"   ) 'buf-move-up)
+;; (define-key global-map (kbd "ESC <down>" ) 'buf-move-down)
+;; (define-key global-map (kbd "ESC <right>") 'buf-move-right)
+;; (define-key global-map (kbd "ESC <left>" ) 'buf-move-left)
+;; (define-key global-map (kbd "ESC M-[ a" ) 'tiling-tile-up)
+;; (define-key global-map (kbd "ESC M-[ b" ) 'tiling-tile-down)
+;; (define-key global-map (kbd "ESC M-[ c" ) 'tiling-tile-right)
+;; (define-key global-map (kbd "ESC M-[ d" ) 'tiling-tile-left)
+
+;; 
+;; el screen
+;; 
+;; (load "elscreen" "ElScreen" t)
+;; (setq elscreen-prefix-key "\C-z")
+;; (global-set-key (kbd "<f9>"    ) 'elscreen-create)
+;; (global-set-key (kbd "S-<f9>"  ) 'elscreen-kill)
+(winner-mode 1)
+(global-set-key (kbd "s-j") `winner-undo)
+(global-set-key (kbd "s-k") `winner-redo)
+
+;; 
+;; org2blog
+;;
+
+(require 'org2blog-autoloads)
+(setq org2blog/wp-blog-alist
+      `(("wdicc"
+         :url "http://wdicc.com/xmlrpc.php"
+         :username "admin"
+         :password ,weblogger-pass
+         :default-title ""
+         :default-categories '("Heart")
+         :keep-new-lines t
+         :confirm t
+         :wp-code nil
+         :tags-as-categories nil)
+        ))
+
+(setq org2blog/wp-buffer-template
+  "#+DATE: %s
+#+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil 
+#+CATEGORY: %s
+#+TAGS: 
+#+PERMALINK: 
+#+TITLE: %s
+\n")
+
+
+
+;; narrowing
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+
 
 (provide 'wd-misc)

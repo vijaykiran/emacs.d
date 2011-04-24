@@ -1,3 +1,5 @@
+(require 'sendmail)
+
 (setq gnus-startup-file "~/Mail/.newsrc")
 
 (setq
@@ -48,12 +50,50 @@
    (vertical 1.0
              (summary .35 point)
              (article 1.0))))
+
+(setq gnus-use-full-window t)
+
 ;; 显示设置
-(setq mm-text-html-renderer 'w3m)                     ;用W3M显示HTML格式的邮件
-(setq mm-inline-large-images t)                       ;显示内置图片
-(auto-image-file-mode)                                ;自动加载图片
-(add-to-list 'mm-attachment-override-types "image/*") ;附件显示图片
-(setq w3m-default-display-inline-images t)
+;; (setq mm-text-html-renderer 'w3m)                     ;用W3M显示HTML格式的邮件
+;; (setq mm-inline-large-images t)                       ;显示内置图片
+
+(setq  mm-text-html-renderer 'w3m
+       mm-inline-text-html-with-images t
+       mm-inline-large-images nil
+       mm-verify-option 'always
+       mm-decrypt-option nil
+       mm-discouraged-alternatives '("text/html" "text/richtext")
+       mm-automatic-display '("text/html")
+       mm-attachment-override-types '("image/.*")
+       mm-external-terminal-program (quote urxvt)
+       gnus-ignored-mime-types '("text/x-vcard")
+       w3m-key-binding 'info
+       w3m-cookie-accept-bad-cookies (quote ask)
+       w3m-use-cookies t
+       w3m-safe-url-regexp nil
+       mm-w3m-safe-url-regexp nil
+       )
+
+(defun wd-save-and-view-in-browser (handle)
+  "Save and view in browser"
+  (interactive)
+  (let ((filename (concat temporary-file-directory "tempgnus.htm")))
+    (with-current-buffer gnus-article-buffer
+      (mm-save-part-to-file handle filename)
+      (browse-url filename))))
+
+;; (setq mm-text-html-renderer 'chrismdp/save-and-view-in-browser)
+
+;; (auto-image-file-mode)                                ;自动加载图片
+;; (add-to-list 'mm-attachment-override-types "image/*") ;附件显示图片
+;; (setq w3m-default-display-inline-images t)
+
+;; 设置 article buffer 的颜色
+(setq gnus-cite-minimum-match-count 1)
+
+(setq gnus-cite-face-list
+      (mapcar (lambda (n) (intern (format "gnus-cite-%s" n)))
+              '(3 7 2 6 4 5 8 9 10 11 1)))
 
 ;; 概要显示设置
 (setq gnus-summary-gather-subject-limit 'fuzzy) ;聚集题目用模糊算法
@@ -67,12 +107,15 @@
             (and (stringp message-id)
                  (string-match myself message-id)))
         "X" "│")))
+
+;; (setq gnus-summary-user-date-format-alist
 (setq gnus-user-date-format-alist             ;用户的格式列表 `user-date'
-      '(((gnus-seconds-today) . "TD %H:%M")   ;当天
-        (604800 . "W%w %H:%M")                ;七天之内
+      '(((gnus-seconds-today) . "Today %H:%M")   ;当天
+        (604800 . "W %w %H:%M")                ;七天之内
         ((gnus-seconds-month) . "%d %H:%M")   ;当月
         ((gnus-seconds-year) . "%m-%d %H:%M") ;今年
         (t . "%y-%m-%d %H:%M")))              ;其他
+
 ;; 线程的可视化外观, `%B'
 (setq gnus-summary-same-subject "")
 (setq gnus-sum-thread-tree-indent "    ")
@@ -144,7 +187,10 @@
           "mon"
           "trash"
           "avatar"
-          "flight")))
+          "flight"
+          "qde"
+          "addev"
+          "ticket")))
 
 ;; 斑纹化
 (setq gnus-summary-stripe-regexp        ;设置斑纹化匹配的正则表达式
@@ -250,9 +296,120 @@
 ;; No popup-buffers
 (setq bbdb-use-pop-up nil)
 
+(setq bbdb/mail-auto-create-p 'bbdb-prune-not-to-me)
+;; (setq bbdb/news-auto-create-p 'bbdb-prune-not-to-me)
+(defun bbdb-prune-not-to-me ()
+  "defun called when bbdb is trying to automatically create a record.  Filters out
+anything not actually adressed to me then passes control to 'bbdb-ignore-some-messages-hook'.
+Also filters out anything that is precedense 'junk' or 'bulk'  This code is from
+Ronan Waide < waider @ waider . ie >."
+  (let ((case-fold-search t)
+        (done nil)
+        (b (current-buffer))
+        (marker (bbdb-header-start))
+        field regexp fieldval)
+    (set-buffer (marker-buffer marker))
+    (save-excursion
+      ;; Hey ho. The buffer we're in is the mail file, narrowed to the
+      ;; current message.
+      (let (to cc precedence)
+        (goto-char marker)
+        (setq to (bbdb-extract-field-value "To"))
+        (goto-char marker)
+        (setq cc (bbdb-extract-field-value "Cc"))
+        (goto-char marker)
+        (setq precedence (bbdb-extract-field-value "Precedence"))
+        ;; Here's where you put your email information.
+        ;; Basically, you just add all the regexps you want for
+        ;; both the 'to' field and the 'cc' field.
+        (if (and (not (string-match "dong.wang@" (or to "")))
+                 (not (string-match "dong.wang@" (or cc ""))))
+            (progn
+              (message "BBDB unfiling; message to: %s cc: %s"
+                       (or to "noone") (or cc "noone"))
+              ;; Return nil so that the record isn't added.
+              nil)
+
+          (if (string-match "junk" (or precedence ""))
+              (progn
+                (message "precedence set to junk, bbdb ignoring.")
+                nil)
+
+            ;; Otherwise add, subject to filtering
+            (bbdb-ignore-some-messages-hook)))))))
+
 
 ;;
 ;; view url in article mode
 (define-key gnus-article-mode-map "v" 'browse-url-at-point)
+
+
+
+;; to view the fucking 'winmail.dat'
+
+;; (defun mime-display-application/ms-tnef (entity situation)
+;;   (save-restriction
+;;     (narrow-to-region (point-max)(point-max))
+;;     (mime-insert-entity-content entity)
+;;     (shell-command-on-region (point-min) (point-max)
+;;                              "tnef --list" nil t)))
+
+;; (defun mime-extract-application/ms-tnef (entity situation)
+;;   (let ((dir (if (eq t mime-save-directory)
+;;                  default-directory
+;;                mime-save-directory))
+;;         (tmpfile (make-temp-name (expand-file-name "mime-tnef"
+;;                                                    (temp-directory)))))
+;;     (setq dir (read-directory-name
+;;                (format "Extract contents into: (default %s) " dir) dir))
+;;     (unless (file-exists-p dir)
+;;       (if (yes-or-no-p (format "Directory %s does not exist. Create? " dir))
+;;           (make-directory dir t)
+;;         (error 'file-error)))
+;;     (mime-write-entity-content entity tmpfile)
+;;     (shell-command (format "tnef --interactive --directory %s --file %s"
+;;                           dir tmpfile))
+;;     (delete-file tmpfile)))
+
+;; (mime-add-condition
+;;  'preview
+;;  '((type . application)(subtype . ms-tnef)
+;;    (body . visible)
+;;    (body-presentation-method . mime-display-application/ms-tnef)))
+
+;; (mime-add-condition
+;;  'action
+;;  '((type . application)(subtype . ms-tnef)
+;;    (mode . "view")
+;;    (method . mime-extract-application/ms-tnef)))
+
+;; 可以保留同主体中已读邮件，把 'some 改为t可以下载所有文章（注意：当
+;; 你进入某个组的时候，这两个设置，都会增大从服务器读取的数据量，从而
+;; 使得这个过程变慢）。
+(setq gnus-fetch-old-headers 'some)
+
+
+;; ask only once when saving articles
+(setq gnus-prompt-before-saving t)
+
+;; 回复邮件的时候的 citation prefix
+;; (setq message-yank-prefix "  > "
+;; message-yank-cited-prefix "  > "
+;; message-yank-empty-prefix "  > ")
+;; (setq message-indentation-spaces 5)
+
+(setq gnus-newsgroup-maximum-articles 100)
+
+;; 回复邮件的时候，光标定位到第一行
+(setq message-citation-line-function
+      '(lambda()
+         (newline-and-indent)
+         (message-insert-citation-line)
+         (message-goto-body)
+         )
+      )
+
+;; (setq message-cite-style 'top-post)
+;; (setq message-cite-style message-cite-style-thunderbird)
 
 (provide 'wd-gnus)

@@ -11,18 +11,18 @@
 ;;        auto-mode-alist))
 
 
-(eval-after-load "sql"
-   (load-library "sql-indent"))
-(setq sql-indent-offset 4)
+;; (eval-after-load "sql"
+;;    (load-library "sql-indent"))
+;; (setq sql-indent-offset 4)
 
 
-(setq sql-indent-first-column-regexp
-  (concat "^\\s-*" (regexp-opt '(
-"select" "update" "insert" "delete" "create"
-"union" "intersect" "drop" "grant"
-"from" "where" "into" "group" "having" "order"
-"set" "exists"
-"--") t) "\\(\\b\\|\\s-\\)"))
+;; (setq sql-indent-first-column-regexp
+;;   (concat "^\\s-*" (regexp-opt '(
+;; "select" "update" "insert" "delete" "create"
+;; "union" "intersect" "drop" "grant"
+;; "from" "where" "into" "group" "having" "order"
+;; "set" "exists"
+;; "--") t) "\\(\\b\\|\\s-\\)"))
 
 
 
@@ -64,6 +64,10 @@ This is used to set `sql-alternate-buffer-name' within
 (defun sql-pool-a ()
   (interactive)
   (sql-connect-preset 'pool-a))
+
+(defun sql-pool-b ()
+  (interactive)
+  (sql-connect-preset 'pool-b))
 
 
 (defun sql-tidy-region (beg end)
