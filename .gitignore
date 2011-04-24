@@ -5,3 +5,8 @@ perldoc_cache.el
 sql-servers
 /emms/emms-cache
 /emms/emms-history
+*.elc
+/twittering/cache
+/url/cookies
+/el-get/.loaddefs.el
+/el-get/.status.el
