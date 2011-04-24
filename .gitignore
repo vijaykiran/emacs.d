@@ -10,3 +10,4 @@ sql-servers
 /url/cookies
 /el-get/.loaddefs.el
 /el-get/.status.el
+/el-get/el-get/.gitignore
