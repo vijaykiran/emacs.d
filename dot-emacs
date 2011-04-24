@@ -1,6 +1,8 @@
 (setq load-path
       (cons "~/.emacs.d/site-lisp/config"
-       (cons "~/.emacs.d/site-lisp/" load-path)))
+            (cons "~/.emacs.d/site-lisp/org2blog/"
+                  (cons "~/.emacs.d/site-lisp/" load-path)
+                  )))
 
 (require 'site-gentoo)
 (require 'wd-main)
