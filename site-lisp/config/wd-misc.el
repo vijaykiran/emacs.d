@@ -4,11 +4,11 @@
 
 (load "~/.pwds")
 
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium")
-;; (setq browse-url-browser-function 'browse-url-firefox
-;;       browse-url-new-window-flag  t
-;;       browse-url-firefox-new-window-is-tab t)
+;; (setq browse-url-browser-function 'browse-url-generic
+;;       browse-url-generic-program "google-chrome")
+(setq browse-url-browser-function 'browse-url-firefox
+      browse-url-new-window-flag  t
+      browse-url-firefox-new-window-is-tab t)
 
 
 ;; (setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
@@ -26,12 +26,12 @@
 ;; Way 1
 ;(let ((zh-font "-unknown-AR PL UMing CN-*-*-*-*-16-*-*-*-*-*-*-*")
 ;; (let ((zh-font "WenQuanYi Zen Hei:pixelsize=16")
-(let ((zh-font "STHeiTi:pixelsize=18")
+(let ((zh-font "STHeiTi:pixelsize=16")
       (fontset "fontset-my"))
   (create-fontset-from-fontset-spec
     (concat
       ;; "-unknown-DejaVu Sans Mono-*-*-*-*-15-*-*-*-*-*-" fontset
-      "-unknown-Monaco-*-*-*-*-15-*-*-*-*-*-" fontset
+      "-unknown-Monaco-*-*-*-*-14-*-*-*-*-*-" fontset
       ",kana:"          zh-font
       ",han:"           zh-font
       ",symbol:"        zh-font
@@ -108,6 +108,10 @@
 
 (require 'color-theme-hober2)
 (color-theme-hober2)
+
+;; (require 'color-theme-humane)
+;; (color-theme-humane)
+
 ;; (require 'color-theme-solarized)
 ;; (color-theme-solarized-dark)
 ;; (require 'zenburn)
@@ -156,13 +160,18 @@
 ;;光标靠近鼠标的时候，让鼠标自动让开，别挡住视线
 (mouse-avoidance-mode 'animate)
 
+;; 翻页后再回来的时候，光标到原来的位置
+(setq scroll-preserve-screen-position t)
+
 ;;下面的这个设置可以让光标指到某个括号的时候显示与它匹配的括号
 (show-paren-mode t)
 (setq show-paren-style 'parentheses)
 
 ;;设置缺省模式是text，而不是基本模式
 (setq default-major-mode 'text-mode)
-;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(setq fill-column 120)
+(setq-default fill-column 120)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; 所有的备份文件转移到~/backups目录下
 (setq auto-save-default nil)
@@ -625,26 +634,26 @@ This will also reserve changes already made by a non-root user."
 ;; 
 ;; pde
 ;; 
-(load "pde-load")
-(setq perldoc-cache-el "~/.emacs.d/perldoc_cache.el")
+;; (load "pde-load")
+;; (setq perldoc-cache-el "~/.emacs.d/perldoc_cache.el")
 
-(defalias 'perl-mode 'cperl-mode)
-(defun pde-perl-mode-hook ()
-  (add-to-list 'cperl-style-alist
-               '("PDE"
-                 (cperl-auto-newline                         . nil)
-                 (cperl-brace-offset                         . 0)
-                 (cperl-close-paren-offset                   . -4)
-                 (cperl-continued-brace-offset               . 0)
-                 (cperl-continued-statement-offset           . 4)
-                 (cperl-extra-newline-before-brace           . nil)
-                 (cperl-extra-newline-before-brace-multiline . nil)
-                 (cperl-indent-level                         . 4)
-                 (cperl-indent-parens-as-block               . t)
-                 (cperl-label-offset                         . -4)
-                 (cperl-merge-trailing-else                  . t)
-                 (cperl-tab-always-indent                    . t)))
-  (cperl-set-style "PDE"))
+;; (defalias 'perl-mode 'cperl-mode)
+;; (defun pde-perl-mode-hook ()
+;;   (add-to-list 'cperl-style-alist
+;;                '("PDE"
+;;                  (cperl-auto-newline                         . nil)
+;;                  (cperl-brace-offset                         . 0)
+;;                  (cperl-close-paren-offset                   . -4)
+;;                  (cperl-continued-brace-offset               . 0)
+;;                  (cperl-continued-statement-offset           . 4)
+;;                  (cperl-extra-newline-before-brace           . nil)
+;;                  (cperl-extra-newline-before-brace-multiline . nil)
+;;                  (cperl-indent-level                         . 4)
+;;                  (cperl-indent-parens-as-block               . t)
+;;                  (cperl-label-offset                         . -4)
+;;                  (cperl-merge-trailing-else                  . t)
+;;                  (cperl-tab-always-indent                    . t)))
+;;   (cperl-set-style "PDE"))
 
 ;; 
 ;; git
@@ -687,11 +696,11 @@ This will also reserve changes already made by a non-root user."
 ;;
 
 
-(dolist (hook '(text-mode-hook
-                twittering-edit-mode
-                message-mode
-                ))
-  (add-hook hook (lambda () (flyspell-mode 1))))
+;; (dolist (hook '(text-mode-hook
+;;                 twittering-edit-mode
+;;                 message-mode
+;;                 ))
+;;   (add-hook hook (lambda () (flyspell-mode 1))))
 
 ;;
 ;; register key binding
@@ -775,8 +784,6 @@ This will also reserve changes already made by a non-root user."
          :url "http://wdicc.com/xmlrpc.php"
          :username "admin"
          :password ,weblogger-pass
-         :default-title ""
-         :default-categories '("Heart")
          :keep-new-lines t
          :confirm t
          :wp-code nil
@@ -786,10 +793,10 @@ This will also reserve changes already made by a non-root user."
 (setq org2blog/wp-buffer-template
   "#+DATE: %s
 #+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil 
-#+CATEGORY: %s
+#+CATEGORY: Heart
 #+TAGS: 
 #+PERMALINK: 
-#+TITLE: %s
+#+TITLE:
 \n")
 
 
@@ -798,5 +805,35 @@ This will also reserve changes already made by a non-root user."
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
+;; 
+;; diary
+;;
+
+;; (setq diary-file "~/org/diary")
+;; (setq appt-issue-message t)
+;; (setq mark-diary-entries-in-calendar t)
+
+;; open a shell pop window
+
+;; (defvar th-shell-popup-buffer nil)
+
+;; (defun th-shell-popup ()
+;;   "Toggle a shell popup buffer with the current file's directory as cwd."
+;;   (interactive)
+;;   (unless (buffer-live-p th-shell-popup-buffer)
+;;     (save-window-excursion (shell "*Popup Shell*"))
+;;     (setq th-shell-popup-buffer (get-buffer "*Popup Shell*")))
+;;   (let ((win (get-buffer-window th-shell-popup-buffer))
+;; 	(dir (file-name-directory (or (buffer-file-name)
+;; 				      ;; dired
+;; 				      dired-directory
+;; 				      ;; use HOME
+;; 				      "~/"))))
+;;     (if win
+;; 	(delete-window win)
+;;       (pop-to-buffer th-shell-popup-buffer nil t)
+;;       (comint-send-string nil (concat "cd " dir "\n")))))
+
+;; (global-set-key (kbd "<f12>") 'th-shell-popup)
 
 (provide 'wd-misc)

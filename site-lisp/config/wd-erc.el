@@ -47,7 +47,7 @@
   (erc :server "irc.oftc.net" :port 6668 :nick "wd" :password oftc-wd-pass)
   ; (erc :server "irc.freenode.net" :port 6667 :nick "wd_afei" :password oftc-wd-pass)
   (if (wd-at-company)
-      (erc :server "www.pgsqldb.org" :port 34567 :nick "wd")
+      (erc :server "192.168.100.173" :port 6667 :nick "wd")
       ;; (erc :server "10.62.163.59" :port 6667 :nick "wd")
     )
 )
@@ -65,11 +65,9 @@
          "#openresty")
         ("iioftc.net"
          "#wd")
-        ("EEEE"
-         "#eeee")
-        ("www.pgsqldb.com"
-         "#eeee"
-         "#qunar")
+        ("ircd.ratbox"
+         "#searchteam"
+         "#addev")
         ))
 
 ;;

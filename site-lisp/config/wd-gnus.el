@@ -412,4 +412,7 @@ Ronan Waide < waider @ waider . ie >."
 ;; (setq message-cite-style 'top-post)
 ;; (setq message-cite-style message-cite-style-thunderbird)
 
+
+(setq gnus-read-active-file nil)
+
 (provide 'wd-gnus)

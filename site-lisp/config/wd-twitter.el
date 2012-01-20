@@ -8,7 +8,7 @@
 (setq twittering-proxy-use t)
 
 (setq twittering-proxy-server "127.0.0.1"
-             twittering-proxy-port 8118
+             twittering-proxy-port 7070
              twittering-uri-regexp-to-proxy
              (car
               (assqref 'web
@@ -37,7 +37,7 @@
       `(":home@sina"
         ":replies@sina" ":mentions@sina"
         ":home@twitter"
-        ":replies@twitter" ":direct_messages@twitter"
+        ":replies@twitter"
         ))
 
 (setq twittering-oauth-use-ssl nil
@@ -49,23 +49,22 @@
 (setq twittering-my-fill-column (- twittering-fill-column
                                    xwl-twittering-padding-size))
 
-(set-face-background twittering-zebra-1-face "gray4")
-(set-face-background twittering-zebra-2-face "gray4")
+;; (set-face-background twittering-zebra-1-face "gray4")
+;; (set-face-background twittering-zebra-2-face "gray4")
 
-(set-face-foreground twittering-zebra-2-face "magenta")
-(set-face-foreground twittering-zebra-1-face "deep sky blue")
+;; (set-face-foreground twittering-zebra-2-face "magenta")
+;; (set-face-foreground twittering-zebra-1-face "deep sky blue")
 
 ;; (set-face-foreground twittering-uri-face "red")
 ;; (set-face-foreground twittering-username-face "red")
 
 
-;; (setq twittering-status-format
-;;       (concat "%FACE[twittering-zebra-1-face,twittering-zebra-2-face]{%i %g %s, from %f%L%r%R:\n%FOLD["
-;;               (make-string xwl-twittering-padding-size ? ) "]{%t}"
-;;               ;; put image near center, 20 -- approximately width of image
-;;               "%FOLD[" (make-string (- (/ twittering-fill-column 2) 20) ? ) "]{%T}\n}")
-;;       twittering-my-status-format
-;;       "%FACE[twittering-zebra-1-face,twittering-zebra-2-face]{%g %s, from %f%L%r%R: %i\n%FOLD[]{%t%T}\n}")
+(setq twittering-status-format
+      (concat "%FACE[twittering-zebra-1-face,twittering-zebra-2-face]{%i %g %s, from %f%L%r%R:\n%FOLD["
+              (make-string xwl-twittering-padding-size ? ) "]{%t}"
+              )
+      twittering-my-status-format
+      "%FACE[twittering-zebra-1-face,twittering-zebra-2-face]{%g %s, from %f%L%r%R: %i\n%FOLD[]{%t}\n}")
 
 (setq twittering-format-tweet-text-function
       'my-twittering-format-tweet-text-function)
@@ -77,15 +76,16 @@
                               'face font-lock-function-name-face))
     text))
 
-(setq twittering-status-format
-      (concat "%i %g %s, from %f%L%r%R:\n%FOLD["
-              (make-string xwl-twittering-padding-size ? ) "]{%t}"
-              ;; put image near center, 20 -- approximately width of image
-              "%FOLD["
-              (make-string xwl-twittering-padding-size ? ) "]{%T}\n")
-      twittering-my-status-format
-      (concat "%g %s, from %f%L%r%R: %i\n%FOLD["
-      (make-string xwl-twittering-padding-size ? ) "]{%t%T}\n"))
+;; (setq twittering-status-format
+;;       (concat "%i %g %s, from %f%L%r%R:\n%FOLD["
+;;               (make-string xwl-twittering-padding-size ? ) "]{%t}"
+;;               ;; put image near center, 20 -- approximately width of image
+;;               "%FOLD["
+;;               (make-string xwl-twittering-padding-size ? ) "]{%T}\n")
+      
+;;       twittering-my-status-format
+;;       (concat "%g %s, from %f%L%r%R: %i\n%FOLD["
+;;       (make-string xwl-twittering-padding-size ? ) "]{%t%T}\n"))
 
 
 (setq twittering-retweet-format "RT @%s: %t")

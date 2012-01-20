@@ -9,10 +9,16 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
+(defun yas/org-very-safe-expand ()
+  (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+
 (add-hook 'org-mode-hook
           (lambda ()
-            (org-set-local 'yas/trigger-key [tab])
-            (define-key yas/keymap [tab] 'yas/next-field-group)))
+            ;; yasnippet (using the new org-cycle hooks)
+            (make-variable-buffer-local 'yas/trigger-key)
+            (setq yas/trigger-key [tab])
+            (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+            (define-key yas/keymap [tab] 'yas/next-field)))
 
 ;; (defun wd-move-done-task-to-done-cats ( task-pos )
 ;;   "auto move done task to *DONE cats"
@@ -51,108 +57,114 @@
 
 
 
-;;;  Load Org Remember Stuff
-(require 'remember)
-(org-remember-insinuate)
+;; ;;;  Load Org Remember Stuff
+;; (require 'remember)
+;; (org-remember-insinuate)
 
-;; Start clock in a remember buffer and switch back to previous clocking task on save
-;; (add-hook 'remember-mode-hook 'org-clock-in 'append)
-;; (add-hook 'org-remember-before-finalize-hook 'bh/clock-in-interrupted-task)
+;; ;; Start clock in a remember buffer and switch back to previous clocking task on save
+;; ;; (add-hook 'remember-mode-hook 'org-clock-in 'append)
+;; ;; (add-hook 'org-remember-before-finalize-hook 'bh/clock-in-interrupted-task)
 
 ;; I use C-M-r to start org-remember
-(global-set-key (kbd "C-c m r") 'org-remember)
+;; (global-set-key (kbd "C-c m r") 'org-remember)
+(global-set-key (kbd "C-c m r") 'org-capture)
 ;; (define-key global-map "\C-cr" 'org-remember)
 
-;; Keep clocks running
-(setq org-remember-clock-out-on-exit nil)
+;; ;; Keep clocks running
+;; (setq org-remember-clock-out-on-exit nil)
 
 ;; C-c C-c stores the note immediately
-(setq org-remember-store-without-prompt t)
+;; (setq org-remember-store-without-prompt t)
 
 ;; I don't use this -- but set it in case I forget to specify a location in a future template
-(setq org-remember-default-headline "Tasks")
+;; (setq org-remember-default-headline "Tasks")
 
 ;; 3 remember templates for TODO tasks, Notes, and Phone calls
-(setq org-remember-templates (quote (("todo" ?t "** TODO %?\nCREATED: %U" nil nil nil)
-                                     ;; ("note" ?n "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:" nil bottom nil)
-                                     ;; ("appointment" ?a "* %?\n  %U" "~/git/org/todo.org" "Appointments" nil)
-                                     ;; ("org-protocol" ?w "* TODO Review %c%!\n  %U" nil bottom nil))))
-                                     )))
+;; (setq org-remember-templates (quote (("todo" ?t "** TODO %?\nCREATED: %U" nil nil nil)
+;;                                      ;; ("note" ?n "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:" nil bottom nil)
+;;                                      ;; ("appointment" ?a "* %?\n  %U" "~/git/org/todo.org" "Appointments" nil)
+;;                                      ;; ("org-protocol" ?w "* TODO Review %c%!\n  %U" nil bottom nil))))
+;;                                      )))
 
-;; (defvar org-my-archive-expiry-days 1
-;;   "The number of days after which a completed task should be auto-archived.
-;; This can be 0 for immediate, or a floating point value.")
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+         "* TODO %?\nCREATED: %U")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
 
-;; (defconst org-my-ts-regexp "[[<]\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} [^]>\r\n]*?\\)[]>]"
-;;   "Regular expression for fast inactive time stamp matching.")
+;; ;; (defvar org-my-archive-expiry-days 1
+;; ;;   "The number of days after which a completed task should be auto-archived.
+;; ;; This can be 0 for immediate, or a floating point value.")
 
-;; (defun org-my-closing-time ()
-;;   (let* ((state-regexp
-;; (concat "- State \"\\(?:" (regexp-opt org-done-keywords)
-;; "\\)\"\\s-*\\[\\([^]\n]+\\)\\]"))
-;; (regexp (concat "\\(" state-regexp "\\|" org-my-ts-regexp "\\)"))
-;; (end (save-excursion
-;; (outline-next-heading)
-;; (point)))
-;; begin
-;; end-time)
-;;     (goto-char (line-beginning-position))
-;;     (while (re-search-forward regexp end t)
-;;       (let ((moment (org-parse-time-string (match-string 1))))
-;; (if (or (not end-time)
-;; (time-less-p (apply #'encode-time end-time)
-;; (apply #'encode-time moment)))
-;; (setq end-time moment))))
-;;     (goto-char end)
-;;     end-time))
+;; ;; (defconst org-my-ts-regexp "[[<]\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} [^]>\r\n]*?\\)[]>]"
+;; ;;   "Regular expression for fast inactive time stamp matching.")
 
-;; (defun org-my-archive-done-tasks ()
-;;   (interactive)
-;;   (save-excursion
-;;     (goto-char (point-min))
-;;     (let ((done-regexp
-;; (concat "^\\*\\* \\(" (regexp-opt org-done-keywords) "\\) ")))
-;;       (while (re-search-forward done-regexp nil t)
-;; (if (>= (time-to-number-of-days
-;; (time-subtract (current-time)
-;; (apply #'encode-time (org-my-closing-time))))
-;; org-my-archive-expiry-days)
-;; (org-archive-subtree))))
-;;     (save-buffer)))
+;; ;; (defun org-my-closing-time ()
+;; ;;   (let* ((state-regexp
+;; ;; (concat "- State \"\\(?:" (regexp-opt org-done-keywords)
+;; ;; "\\)\"\\s-*\\[\\([^]\n]+\\)\\]"))
+;; ;; (regexp (concat "\\(" state-regexp "\\|" org-my-ts-regexp "\\)"))
+;; ;; (end (save-excursion
+;; ;; (outline-next-heading)
+;; ;; (point)))
+;; ;; begin
+;; ;; end-time)
+;; ;;     (goto-char (line-beginning-position))
+;; ;;     (while (re-search-forward regexp end t)
+;; ;;       (let ((moment (org-parse-time-string (match-string 1))))
+;; ;; (if (or (not end-time)
+;; ;; (time-less-p (apply #'encode-time end-time)
+;; ;; (apply #'encode-time moment)))
+;; ;; (setq end-time moment))))
+;; ;;     (goto-char end)
+;; ;;     end-time))
 
-;; (defalias 'archive-done-tasks 'org-my-archive-done-tasks)
+;; ;; (defun org-my-archive-done-tasks ()
+;; ;;   (interactive)
+;; ;;   (save-excursion
+;; ;;     (goto-char (point-min))
+;; ;;     (let ((done-regexp
+;; ;; (concat "^\\*\\* \\(" (regexp-opt org-done-keywords) "\\) ")))
+;; ;;       (while (re-search-forward done-regexp nil t)
+;; ;; (if (>= (time-to-number-of-days
+;; ;; (time-subtract (current-time)
+;; ;; (apply #'encode-time (org-my-closing-time))))
+;; ;; org-my-archive-expiry-days)
+;; ;; (org-archive-subtree))))
+;; ;;     (save-buffer)))
+
+;; ;; (defalias 'archive-done-tasks 'org-my-archive-done-tasks)
 
 
-;; (defvar org-my-archive-expiry-days 2
-;;   "The number of days after which a completed task should be auto-archived.
-;; This can be 0 for immediate, or a floating point value.")
+;; ;; (defvar org-my-archive-expiry-days 2
+;; ;;   "The number of days after which a completed task should be auto-archived.
+;; ;; This can be 0 for immediate, or a floating point value.")
 
-;; (defun org-my-archive-done-tasks ()
-;;   (interactive)
-;;   (save-excursion
-;;     (goto-char (point-min))
-;;     (let ((done-regexp
-;;            (concat "\\* \\(" (regexp-opt org-done-keywords) "\\) "))
-;;           (state-regexp
-;;            (concat "- State \"\\(" (regexp-opt org-done-keywords)
-;;                    "\\)\"\\s-*\\[\\([^]\n]+\\)\\]")))
-;;       (while (re-search-forward done-regexp nil t)
-;;         (let ((end (save-excursion
-;;                      (outline-next-heading)
-;;                      (point)))
-;;               begin)
-;;           (goto-char (line-beginning-position))
-;;           (setq begin (point))
-;;           (when (re-search-forward state-regexp end t)
-;;             (let* ((time-string (match-string 2))
-;;                    (when-closed (org-parse-time-string time-string)))
-;;               (if (>= (time-to-number-of-days
-;;                        (time-subtract (current-time)
-;;                                       (apply #'encode-time when-closed)))
-;;                       org-my-archive-expiry-days)
-;;                   (org-archive-subtree)))))))))
+;; ;; (defun org-my-archive-done-tasks ()
+;; ;;   (interactive)
+;; ;;   (save-excursion
+;; ;;     (goto-char (point-min))
+;; ;;     (let ((done-regexp
+;; ;;            (concat "\\* \\(" (regexp-opt org-done-keywords) "\\) "))
+;; ;;           (state-regexp
+;; ;;            (concat "- State \"\\(" (regexp-opt org-done-keywords)
+;; ;;                    "\\)\"\\s-*\\[\\([^]\n]+\\)\\]")))
+;; ;;       (while (re-search-forward done-regexp nil t)
+;; ;;         (let ((end (save-excursion
+;; ;;                      (outline-next-heading)
+;; ;;                      (point)))
+;; ;;               begin)
+;; ;;           (goto-char (line-beginning-position))
+;; ;;           (setq begin (point))
+;; ;;           (when (re-search-forward state-regexp end t)
+;; ;;             (let* ((time-string (match-string 2))
+;; ;;                    (when-closed (org-parse-time-string time-string)))
+;; ;;               (if (>= (time-to-number-of-days
+;; ;;                        (time-subtract (current-time)
+;; ;;                                       (apply #'encode-time when-closed)))
+;; ;;                       org-my-archive-expiry-days)
+;; ;;                   (org-archive-subtree)))))))))
 
-;; (defalias 'archive-done-tasks 'org-my-archive-done-tasks)
-
+;; ;; (defalias 'archive-done-tasks 'org-my-archive-done-tasks)
 
 (provide 'wd-org)
