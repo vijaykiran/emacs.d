@@ -53,7 +53,7 @@ This is used to set `sql-alternate-buffer-name' within
   (let ((sql-mysql-options (or (and (boundp 'sql-port) sql-port (cons (concat "-P " (or (and (numberp sql-port) (number-to-string sql-port)) sql-port)) sql-mysql-options)) sql-mysql-options)))
     ad-do-it))
 
-(load "~/.emacs.d/sql-servers")
+;(load "~/.emacs.d/sql-servers")
 
 (defun sql-connect-preset (name)
   "Connect to a predefined SQL connection listed in `sql-connection-alist'"
