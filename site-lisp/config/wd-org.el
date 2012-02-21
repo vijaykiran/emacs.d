@@ -167,4 +167,17 @@
 
 ;; ;; (defalias 'archive-done-tasks 'org-my-archive-done-tasks)
 
+(add-hook 'org-mode-hook 'soft-wrap-lines)
+
+
+(defun soft-wrap-lines ()
+"Make lines wrap at window edge and on word boundary,
+in current buffer."
+(interactive)
+(setq truncate-lines nil)
+(setq word-wrap t)
+)
+
+(setq org-src-fontify-natively t)
+
 (provide 'wd-org)

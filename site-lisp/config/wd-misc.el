@@ -221,9 +221,9 @@
 (setq-default tab-width 4)
 (setq tab-width 4)
 (setq cperl-indent-level 4)
-(setq tab-stop-list ())
-(loop for x downfrom 40 to 1 do
-            (setq tab-stop-list (cons (* x 4) tab-stop-list)))
+;(setq tab-stop-list ())
+;(loop for x downfrom 40 to 1 do
+;            (setq tab-stop-list (cons (* x 4) tab-stop-list)))
 (add-hook 'html-mode-hook
               (lambda ()
                 (setq indent-line-function 'indent-relative)))
@@ -783,7 +783,6 @@ This will also reserve changes already made by a non-root user."
       `(("wdicc"
          :url "http://wdicc.com/xmlrpc.php"
          :username "admin"
-         :password ,weblogger-pass
          :keep-new-lines t
          :confirm t
          :wp-code nil

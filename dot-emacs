@@ -4,7 +4,12 @@
                   (cons "~/.emacs.d/site-lisp/" load-path)
                   )))
 
+(if (eq system-type 'darwin)
+	(setq load-path
+		(cons "/usr/share/emacs/site-lisp/" load-path)))
+
 (require 'site-gentoo)
+
 (require 'wd-main)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
