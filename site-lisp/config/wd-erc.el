@@ -67,6 +67,9 @@
          "#wd")
         ("ircd.ratbox"
          "#searchteam"
+         "#tuancs"
+         "#tuandev"
+         "#tech"
          "#addev")
         ))
 
