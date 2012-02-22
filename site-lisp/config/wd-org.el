@@ -171,12 +171,12 @@
 
 
 (defun soft-wrap-lines ()
-"Make lines wrap at window edge and on word boundary,
+  "Make lines wrap at window edge and on word boundary,
 in current buffer."
-(interactive)
-(setq truncate-lines nil)
-(setq word-wrap t)
-)
+  (interactive)
+  (setq truncate-lines nil)
+  (setq word-wrap t)
+  )
 
 (setq org-src-fontify-natively t)
 
