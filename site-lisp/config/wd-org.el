@@ -210,13 +210,13 @@ in current buffer."
       (erase-buffer)
       (save-buffer)
       (kill-buffer (current-buffer))
-      (with-current-buffer (find-file-noselect "~/Dropbox/todo.org")
+      (with-current-buffer (find-file-noselect "~/org/todo.org")
         (save-excursion
           (goto-char (point-min))
           (search-forward "* Tasks")
           (goto-char (match-beginning 0))
           (insert tasks))))))
  
-(add-hook 'org-mobile-post-pull-hook 'my-org-convert-incoming-items)
+;; (add-hook 'org-mobile-post-pull-hook 'my-org-convert-incoming-items)
 
 (provide 'wd-org)
