@@ -92,9 +92,12 @@
 
 ;;设置缺省模式是text，而不是基本模式
 (setq default-major-mode 'text-mode)
-(setq fill-column 120)
-(setq-default fill-column 120)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+;; (setq fill-column 80)
+;; (setq-default fill-column 80)
+;; (setq longlines-show-hard-newlines t)
+;; (setq longlines-auto-wrap t)
+;; (add-hook 'text-mode-hook 'longlines-mode)
+;; (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; 所有的备份文件转移到~/backups目录下
 (setq auto-save-default nil)
@@ -695,7 +698,7 @@ This will also reserve changes already made by a non-root user."
 
 (setq org2blog/wp-buffer-template
   "#+DATE: %s
-#+OPTIONS: toc:nil num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil 
+#+OPTIONS: toc:t num:nil todo:nil pri:nil tags:nil ^:nil TeX:nil 
 #+CATEGORY: Heart
 #+TAGS: 
 #+PERMALINK: 

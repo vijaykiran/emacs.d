@@ -9,6 +9,13 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
+(add-hook 'org-mode-hook
+  (lambda ()
+    (define-key org-mode-map "\C-a" 'move-beginning-of-line)
+    (define-key org-mode-map "\C-e" 'move-end-of-line)
+    (setq truncate-lines nil)
+))
+
 (defun yas/org-very-safe-expand ()
   (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
 
