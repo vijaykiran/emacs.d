@@ -15,12 +15,13 @@
 
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
-(let ((zh-font "STHeiTi:pixelsize=16")
+;; (let ((zh-font "STHeiTi:pixelsize=15")
+(let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
       (fontset "fontset-my"))
   (create-fontset-from-fontset-spec
     (concat
-      ;; "-unknown-DejaVu Sans Mono-*-*-*-*-15-*-*-*-*-*-" fontset
-      "-unknown-Monaco-*-*-*-*-14-*-*-*-*-*-" fontset
+      ;; "-unknown-monofur-*-*-*-*-15-*-*-*-*-*-" fontset
+      "-unknown-Monaco-*-*-*-*-12-*-*-*-*-*-" fontset
       ",kana:"          zh-font
       ",han:"           zh-font
       ",symbol:"        zh-font
