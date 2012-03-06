@@ -6,9 +6,13 @@
 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "google-chrome")
-(setq browse-url-browser-function 'browse-url-firefox
-      browse-url-new-window-flag  t
-      browse-url-firefox-new-window-is-tab t)
+
+(if (eq system-type 'darwin)
+    (setq browse-url-browser-function 'browse-url-default-macosx-browser)
+  (setq browse-url-browser-function 'browse-url-firefox
+        browse-url-new-window-flag  t
+        browse-url-firefox-new-window-is-tab t)
+  )
 
 
 ;; (setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
@@ -33,6 +37,12 @@
 (require 'color-theme-hober2)
 (color-theme-hober2)
 
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
+
 ;; (require 'color-theme-humane)
 ;; (color-theme-humane)
 
@@ -43,7 +53,7 @@
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-;(scroll-bar-mode -1)
+(scroll-bar-mode -1)
 (mouse-wheel-mode 1)
 
 (global-auto-revert-mode 1)
@@ -742,5 +752,7 @@ This will also reserve changes already made by a non-root user."
 ;;       (comint-send-string nil (concat "cd " dir "\n")))))
 
 ;; (global-set-key (kbd "<f12>") 'th-shell-popup)
+
+
 
 (provide 'wd-misc)
