@@ -19,8 +19,8 @@
 
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
-;; (let ((zh-font "STHeiTi:pixelsize=15")
-(let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
+(let ((zh-font "STHeiTi:pixelsize=14")
+;; (let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
       (fontset "fontset-my"))
   (create-fontset-from-fontset-spec
     (concat
@@ -50,6 +50,8 @@
 ;; (color-theme-solarized-dark)
 ;; (require 'zenburn)
 ;; (color-theme-zenburn)
+;; I use this key for input method
+(global-unset-key (kbd "C-SPC"))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -754,5 +756,21 @@ This will also reserve changes already made by a non-root user."
 ;; (global-set-key (kbd "<f12>") 'th-shell-popup)
 
 
+;; 
+;; ibus
+;; 
+
+;; (require 'ibus)
+;; (setq ibus-agent-file-name "~/.emacs.d/site-lisp/ibus-el-agent")
+;; (setq ibus-cursor-color '("red" "blue" "limegreen"))
+;; (if (not (eq system-type 'darwin))
+;;     (if (and (fboundp 'daemonp) (daemonp))
+;;         (add-hook 'after-make-frame-functions
+;;                   (lambda (new-frame)
+;;                     (select-frame new-frame)
+;;                     (or ibus-mode (ibus-mode-on))))
+;;       (add-hook 'after-init-hook 'ibus-mode-on)
+;;       )
+;;   )
 
 (provide 'wd-misc)
