@@ -4,6 +4,7 @@
 (require 'twittering-mode)
 
 (setq twittering-fill-column 60)
+(setq twittering-my-fill-column 60)
 
 ;; 设置成黑色，自动切换颜色有问题
 (set-face-background twittering-zebra-1-face "black")
