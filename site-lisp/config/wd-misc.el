@@ -14,7 +14,6 @@
         browse-url-firefox-new-window-is-tab t)
   )
 
-
 ;; (setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
 
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
