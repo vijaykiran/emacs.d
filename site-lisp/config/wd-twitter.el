@@ -5,6 +5,7 @@
 
 (setq twittering-fill-column 60)
 
+;; 设置成黑色，自动切换颜色有问题
 (set-face-background twittering-zebra-1-face "black")
 (set-face-background twittering-zebra-2-face "black")
 
@@ -12,8 +13,10 @@
 (define-key twittering-mode-map (kbd "C")
       'twittering-erase-all)
 
+;; notify me at status bar when there is new tweet
 (twittering-enable-unread-status-notifier)
-(twittering-icon-mode)
+;; show icon in tweet
+(twittering-icon-mode 1)
 
 (setq twittering-retweet-format "RT @%s: %t"
       twittering-use-native-retweet t)
@@ -60,13 +63,21 @@
 (define-key twittering-mode-map (kbd "u")
       'twittering-switch-to-unread-timeline)
 
-(defface wd-twittering-user-name-face `((t (:height 1.2 :foreground "tan"))) "" )
+(defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
 (setq wd-twittering-user-name-face 'wd-twittering-user-name-face)
 
+(defface wd-twittering-other-face `((t (:foreground "dark slate grey"))) "" )
+(setq wd-twittering-other-face 'wd-twittering-other-face)
+
+
 (setq twittering-status-format
-      "%FACE[wd-twittering-user-name-face]{%i} %s %g, from %f%r%R:\n%FOLD[         ]{%t}\n"
+      "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
       twittering-my-status-format
-      "%FACE[twittering-zebra-1-face,twittering-zebra-2-face]{%s %g, from %f%r%R:} %i\n%{%t}\n")
+      "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
+)
+
+;; (setq twittering-status-format
+;;       "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f:}\n%FOLD[       ]{%t}\n%r%R\n")
 
 (setq twittering-curl-extra-parameters '("--socks5-hostname" "127.0.0.1:7070"))
 
