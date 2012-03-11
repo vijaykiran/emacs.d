@@ -42,7 +42,7 @@
 ;; auto connect
 (defun wd-erc-select ()
   (interactive)
-  (unless oftc-wd-pass
+  (unless (and (boundp 'oftc-wd-pass) oftc-wd-pass)
     (setq oftc-wd-pass (read-passwd "irc.oftc.net password: ")))
   (erc :server "irc.oftc.net" :port 6668 :nick "wd" :password oftc-wd-pass)
   ; (erc :server "irc.freenode.net" :port 6667 :nick "wd_afei" :password oftc-wd-pass)

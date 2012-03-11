@@ -1,37 +1,14 @@
 (require 'sendmail)
 
-(setq gnus-startup-file "~/Mail/.newsrc")
+(setq gnus-startup-file "~/.emacs.d/.newsrc")
 
-(setq
- gnus-select-method '(nnmaildir "Company" (directory "~/Mail/company"))
- mail-sources '((maildir :path "~/Mail/company" :subdirs ("cur" "new" "tmp")))
- mail-source-delete-incoming t
- )
+(setq gnus-select-method '(nnimap "gmail"
+				  (nnimap-address "imap.gmail.com")
+				  (nnimap-server-port 993)
+				  (nnimap-stream ssl)))
 
-;; 发送邮件
-(add-hook 'message-send-hook (lambda()
-                               (if (string-match ".*qunar.com" user-mail-address)
-                                   (setq message-sendmail-extra-arguments '("-a" "company"))
-                                 (setq message-sendmail-extra-arguments '("-a" "wdicc"))
-                                 )
-))
-
-(setq send-mail-function 'sendmail-send-it         ;设置邮件发送方法
-      message-send-mail-function 'sendmail-send-it ;设置消息发送方法
-      sendmail-program "/usr/bin/msmtp"            ;设置发送程序
-      mail-specify-envelope-from t                 ;发送邮件时指定信封来源
-      mail-envelope-from 'header)                  ;信封来源于 header
-
-;; (setq gnus-secondary-select-methods nil)
-;; (setq gnus-secondary-select-methods '((nntp "news.cn99.com")))
+;; (setq gnus-secondary-select-methods '((nntp "nntp.aioe.org")))
 (setq gnus-secondary-select-methods '((nntp "localhost")))
-
-;; (add-to-list 'gnus-secondary-select-methods '(nnimap "gmail"
-;;                                   (nnimap-address "imap.gmail.com")
-;;                                   (nnimap-server-port 993)
-;;                                   (nnimap-stream ssl)))
-
-
 
 (setq gnus-message-archive-group                   ;设置消息归档的组
       '((if (message-news-p)
@@ -54,9 +31,6 @@
 (setq gnus-use-full-window t)
 
 ;; 显示设置
-;; (setq mm-text-html-renderer 'w3m)                     ;用W3M显示HTML格式的邮件
-;; (setq mm-inline-large-images t)                       ;显示内置图片
-
 (setq  mm-text-html-renderer 'w3m
        mm-inline-text-html-with-images t
        mm-inline-large-images nil
@@ -73,20 +47,6 @@
        w3m-safe-url-regexp nil
        mm-w3m-safe-url-regexp nil
        )
-
-(defun wd-save-and-view-in-browser (handle)
-  "Save and view in browser"
-  (interactive)
-  (let ((filename (concat temporary-file-directory "tempgnus.htm")))
-    (with-current-buffer gnus-article-buffer
-      (mm-save-part-to-file handle filename)
-      (browse-url filename))))
-
-;; (setq mm-text-html-renderer 'chrismdp/save-and-view-in-browser)
-
-;; (auto-image-file-mode)                                ;自动加载图片
-;; (add-to-list 'mm-attachment-override-types "image/*") ;附件显示图片
-;; (setq w3m-default-display-inline-images t)
 
 ;; 设置 article buffer 的颜色
 (setq gnus-cite-minimum-match-count 1)
@@ -176,21 +136,14 @@
 ;;(add-hook 'mail-notify-pre-hook 'gnus-notify+)          ;更新邮件时
 ;;(add-hook 'gnus-after-getting-new-news-hook 'gnus-notify+)
 ;;
-(require 'binjo-gnus-notify)
-(binjo-gnus-enable-unread-notify)
-(eval-after-load 'binjo-gnus-notify
-    '(setq binjo-gnus-notify-groups
-        '("inbox"
-          "search"
-          "all"
-          "tech"
-          "mon"
-          "trash"
-          "avatar"
-          "flight"
-          "qde"
-          "addev"
-          "ticket")))
+;; (require 'binjo-gnus-notify)
+;; (binjo-gnus-enable-unread-notify)
+;; (eval-after-load 'binjo-gnus-notify
+;;     '(setq binjo-gnus-notify-groups
+;;         '("inbox"
+;;           "search"
+;;           "all"
+;;           "ticket")))
 
 ;; 斑纹化
 (setq gnus-summary-stripe-regexp        ;设置斑纹化匹配的正则表达式
@@ -200,29 +153,15 @@
 ;; 最后设置
 ;; (gnus-compile)                          ;编译一些选项, 加快速度
 
+;; SMTP
+(setq message-send-mail-function 'smtpmail-send-it
+      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-auth-credentials '(("smtp.gmail.com" 587 "wd@wdicc.com" nil))
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-local-domain "wdicc.com")
 
-
-
-;; (require 'w3m)
-;; (setq
-;;  mm-inline-text-html-renderer 'mm-inline-text-html-render-with-w3m
-;;  w3m-display-inline-image t
-;;  gnus-article-wash-function 'gnus-article-wash-html-with-w3m)
-
-;; ;; SMTP
-;; (setq message-send-mail-function 'smtpmail-send-it)
-;; (setq smtpmail-default-smtp-server "smtp.gmail.com")
-;; (setq smtpmail-smtp-service 587)
-;; (setq smtpmail-starttls-credentials
-;;       '(("smtp.gmail.com"
-;;          587
-;;          nil
-;;          nil)))
-;; (setq smtpmail-auth-credentials
-;;       '(("smtp.gmail.com"
-;;          587
-;;          "wd@wdicc.com"
-;;          nil)))
 
 ;; ;; IMAP
 ;; (setq gnus-select-method
@@ -260,18 +199,11 @@
             (gnus-demon-add-handler 'gnus-group-get-new-news 3 nil)
             (gnus-demon-init)))
 
-;; check if at company group
-;; (defun posting-from-work-p()
-;;   )
-
 ;; gnus-posting-styles and some specific settings
-(load "~/Mail/.gnus-posting-style")
-
-;; auto complete some email address
-;; (add-to-list 'ac-dictionary-directories "~/Mail/.ac-dict")
+;; (load "~/Mail/.gnus-posting-style")
 
 ;; Disable CC: to self in wide replies and stuff
-(setq message-dont-reply-to-names gnus-ignored-from-addresses)
+;; (setq message-dont-reply-to-names gnus-ignored-from-addresses)
 
 ;; top post
 ;; (setq message-cite-reply-above 't)
@@ -338,12 +270,9 @@
 ;;             ;; Otherwise add, subject to filtering
 ;;             (bbdb-ignore-some-messages-hook)))))))
 
-
 ;;
 ;; view url in article mode
 (define-key gnus-article-mode-map "v" 'browse-url-at-point)
-
-
 
 ;; to view the fucking 'winmail.dat'
 

@@ -4,6 +4,9 @@
 
 (load "~/.pwds")
 
+;;
+;; default browser
+;; 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "google-chrome")
 
@@ -14,9 +17,9 @@
         browse-url-firefox-new-window-is-tab t)
   )
 
-
-;; (setq compilation-environment (list "LZ_HOST=t.api.linezing.com"))
-
+;;
+;; fonts
+;; 
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
 (let ((zh-font "STHeiTi:pixelsize=14")
@@ -34,15 +37,11 @@
   (set-default-font fontset)
   (add-to-list 'default-frame-alist `(font . ,fontset)))
 
+;;
+;; color theme
+;; 
 (require 'color-theme-hober2)
 (color-theme-hober2)
-
-(when (eq system-type 'darwin) ;; mac specific settings
-  (setq mac-option-modifier 'alt)
-  (setq mac-command-modifier 'meta)
-  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-  )
-
 ;; (require 'color-theme-humane)
 ;; (color-theme-humane)
 
@@ -50,9 +49,21 @@
 ;; (color-theme-solarized-dark)
 ;; (require 'zenburn)
 ;; (color-theme-zenburn)
-;; I use this key for input method
-(global-unset-key (kbd "C-SPC"))
 
+
+;;
+;; for mac only
+;; 
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
+
+
+;;
+;; misc settings
+;; 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -191,13 +202,6 @@
  uniquify-separator ":")
 
 ;;
-;; twiki
-;;
-;; (require 'erin)
-;; (add-to-list 'auto-mode-alist
-;; '("\\twiki.*\\'" . erin-mode))
-
-;;
 ;; python-mode
 ;;
 ;; (require 'ipython)
@@ -219,26 +223,6 @@
   (interactive
    (list (gud-query-cmdline pdb-path
 			    (file-name-nondirectory buffer-file-name)))))
-
-;;
-;; weblogger mode
-;;
-
-;; (require 'weblogger)
-
-;; (setq weblogger-server-password weblogger-pass)
-
-;; (add-hook 'weblogger-start-edit-entry-hook (lambda()
-;;     (auto-fill-mode -1)
-;;     (abbrev-mode -1)
-;;     (auto-complete-mode 1)
-;;     ))
-
-;;
-;; muse
-;;
-
-;;(require 'muse-html)
 
 ;;
 ;; perl-mode
@@ -314,35 +298,6 @@
 ;; ;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
 ;; (highlight-tail-mode)
 
-;; 
-;; emms
-;;
-;(add-to-list 'load-path "~/.emacs.d/site-lisp/emms/")
-;(require 'emms-setup)
-; (require 'xwl-emms)
-;(emms-standard)
-;(emms-default-players)
-
-;;
-;; view mode
-;;
-
-;; use view mode when press C-x C-q
-;; (setq view-read-only t)
-
-;; (add-hook 'find-file-hook
-;;       (lambda ()
-;;         (view-mode t)))
-
-;; (defun view-mode-keybinding-hook ()
-;;   (define-key view-mode-map "h" 'backward-char)
-;;   (define-key view-mode-map "l" 'forward-char)
-;;   (define-key view-mode-map "j" 'next-line)
-;;   (define-key view-mode-map "k" 'previous-line)
-;;   (define-key view-mode-map "b" 'scroll-down)
-;;   (define-key view-mode-map "f" 'scroll-up))
-
-;; (add-hook 'view-mode-hook 'view-mode-keybinding-hook)
 
 ;; 
 ;; tramp
@@ -404,36 +359,6 @@ This will also reserve changes already made by a non-root user."
 (setq auto-mode-alist
       ( append '(("\\.tt$" . tt-mode)) auto-mode-alist) )
 
-;; 
-;; sl-mode
-;; 
-(load "sl-term")
-
-;; 
-;; Track cahnges for some buffer
-;; 
-;; (defadvice switch-to-buffer (before
-;;                              highlight-changes-for-some-buffer
-;;                              activate)
-;;   (when (memq major-mode (list 'erc-mode 'twittering-mode))
-;;     (let ((buffer-read-only nil)
-;;           (inhibit-read-only t))
-;;       (highlight-changes-mode -1)
-;;       (highlight-changes-mode 1))))
-
-
-;; 
-;; window mode
-;;
-
-;; (autoload 'window-number-meta-mode "window-number"
-;;   "A global minor mode that enables use of the M- prefix to select
-;; windows, use `window-number-mode' to display the window numbers in
-;; the mode-line . "
-;;   t)
-;; ;; 使用 M-up, M-down 等来切换 window
-;; (windmove-default-keybindings 'meta)
-
 ;;
 ;; woman
 ;;
@@ -456,6 +381,7 @@ This will also reserve changes already made by a non-root user."
                ("perl" (mode . cperl-mode))
                ("erc" (mode . erc-mode))
                ("javascript" (mode . js2-mode))
+               ("twmode" (mode . twittering-mode))
                ("Org" ;; all org-related buffers
                 (mode . org-mode))
                ("emacs" (or
@@ -536,13 +462,6 @@ This will also reserve changes already made by a non-root user."
 (global-whitespace-mode)
 
 
-;;
-;; 
-;; (require 'drkm-fav)
-
-;; (setq drkm-fav:favourite-directories-alist
-;;   '(("home"  . "/bood@remote.host.com:~")
-;;     ("kernow-src" . "")))
 ;; 
 ;;  confluence
 ;; 
@@ -602,16 +521,6 @@ This will also reserve changes already made by a non-root user."
 (edit-server-start)
 
 ;;
-;; muse-html-slidy
-;;
-
-;; (require 'muse-mode)
-;; (require 'muse-html)
-;; (setq muse-html-slidy-style-dir "/home/wd/work/html-slidy/")
-;; (require 'muse-html-slidy)
-
-
-;;
 ;; flyspell
 ;;
 
@@ -643,53 +552,9 @@ This will also reserve changes already made by a non-root user."
 ;; (define-key ctl-x-r-map-alias "f" 'frame-configuration-to-register)
 
 
-(require 'tiling)
-;; ;;; Windows related operations
-;; ;; Split & Resize
-;; (define-key global-map (kbd "C-x |") 'split-window-horizontally)
-;; (define-key global-map (kbd "C-x _") 'split-window-vertically)
-;; (define-key global-map (kbd "C-{") 'shrink-window-horizontally)
-;; (define-key global-map (kbd "C-}") 'enlarge-window-horizontally)
-;; (define-key global-map (kbd "C-^") 'enlarge-window)
-;; Navgating: Windmove uses C-<up> etc.
-(define-key global-map (kbd "C-<up>"   ) 'windmove-up)
-(define-key global-map (kbd "C-<down>" ) 'windmove-down)
-(define-key global-map (kbd "C-<left>" ) 'windmove-right)
-(define-key global-map (kbd "C-<right>") 'windmove-left)
-;; Swap buffers: M-<up> etc.
-(define-key global-map (kbd "M-<up>"   ) 'buf-move-up)
-(define-key global-map (kbd "M-<down>" ) 'buf-move-down)
-(define-key global-map (kbd "M-<right>") 'buf-move-right)
-(define-key global-map (kbd "M-<left>" ) 'buf-move-left)
-;; ;; Tile
-;; (define-key global-map (kbd "C-\\") 'tiling-cycle) ; accepts prefix number
-;; (define-key global-map (kbd "C-M-<up>") 'tiling-tile-up)
-;; (define-key global-map (kbd "C-M-<down>") 'tiling-tile-down)
-;; (define-key global-map (kbd "C-M-<right>") 'tiling-tile-right)
-;; (define-key global-map (kbd "C-M-<left>") 'tiling-tile-left)
-;; ;; Another type of representation of same keys, in case your terminal doesn't
-;; ;; recognize above key-binding. Tip: C-h k C-up etc. to see into what your
-;; ;; terminal tranlated the key sequence.
-;; (define-key global-map (kbd "M-[ a"     ) 'windmove-up)
-;; (define-key global-map (kbd "M-[ b"     ) 'windmove-down)
-;; (define-key global-map (kbd "M-[ c"     ) 'windmove-right)
-;; (define-key global-map (kbd "M-[ d"     ) 'windmove-left)
-;; (define-key global-map (kbd "ESC <up>"   ) 'buf-move-up)
-;; (define-key global-map (kbd "ESC <down>" ) 'buf-move-down)
-;; (define-key global-map (kbd "ESC <right>") 'buf-move-right)
-;; (define-key global-map (kbd "ESC <left>" ) 'buf-move-left)
-;; (define-key global-map (kbd "ESC M-[ a" ) 'tiling-tile-up)
-;; (define-key global-map (kbd "ESC M-[ b" ) 'tiling-tile-down)
-;; (define-key global-map (kbd "ESC M-[ c" ) 'tiling-tile-right)
-;; (define-key global-map (kbd "ESC M-[ d" ) 'tiling-tile-left)
-
 ;; 
-;; el screen
+;; winner-mode
 ;; 
-;; (load "elscreen" "ElScreen" t)
-;; (setq elscreen-prefix-key "\C-z")
-;; (global-set-key (kbd "<f9>"    ) 'elscreen-create)
-;; (global-set-key (kbd "S-<f9>"  ) 'elscreen-kill)
 (winner-mode 1)
 (global-set-key (kbd "s-j") `winner-undo)
 (global-set-key (kbd "s-k") `winner-redo)
@@ -719,58 +584,21 @@ This will also reserve changes already made by a non-root user."
 \n")
 
 
-
+;; 
 ;; narrowing
+;; 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
 ;; 
-;; diary
+;; switch-window mode
+;; 
+(require 'switch-window)
+
 ;;
-
-;; (setq diary-file "~/org/diary")
-;; (setq appt-issue-message t)
-;; (setq mark-diary-entries-in-calendar t)
-
-;; open a shell pop window
-
-;; (defvar th-shell-popup-buffer nil)
-
-;; (defun th-shell-popup ()
-;;   "Toggle a shell popup buffer with the current file's directory as cwd."
-;;   (interactive)
-;;   (unless (buffer-live-p th-shell-popup-buffer)
-;;     (save-window-excursion (shell "*Popup Shell*"))
-;;     (setq th-shell-popup-buffer (get-buffer "*Popup Shell*")))
-;;   (let ((win (get-buffer-window th-shell-popup-buffer))
-;; 	(dir (file-name-directory (or (buffer-file-name)
-;; 				      ;; dired
-;; 				      dired-directory
-;; 				      ;; use HOME
-;; 				      "~/"))))
-;;     (if win
-;; 	(delete-window win)
-;;       (pop-to-buffer th-shell-popup-buffer nil t)
-;;       (comint-send-string nil (concat "cd " dir "\n")))))
-
-;; (global-set-key (kbd "<f12>") 'th-shell-popup)
-
-
+;; window move
 ;; 
-;; ibus
-;; 
-
-;; (require 'ibus)
-;; (setq ibus-agent-file-name "~/.emacs.d/site-lisp/ibus-el-agent")
-;; (setq ibus-cursor-color '("red" "blue" "limegreen"))
-;; (if (not (eq system-type 'darwin))
-;;     (if (and (fboundp 'daemonp) (daemonp))
-;;         (add-hook 'after-make-frame-functions
-;;                   (lambda (new-frame)
-;;                     (select-frame new-frame)
-;;                     (or ibus-mode (ibus-mode-on))))
-;;       (add-hook 'after-init-hook 'ibus-mode-on)
-;;       )
-;;   )
+(require 'windmove)
+(windmove-default-keybindings 'meta)
 
 (provide 'wd-misc)

@@ -4,7 +4,7 @@
 (require 'twittering-mode)
 
 (setq twittering-fill-column 60)
-(setq twittering-my-fill-column 60)
+;; (setq twittering-my-fill-column 30)
 
 ;; 设置成黑色，自动切换颜色有问题
 (set-face-background twittering-zebra-1-face "black")
@@ -38,12 +38,15 @@
 (setq twittering-tinyurl-service 'toly)
 
 (setq twittering-initial-timeline-spec-string
-      `(":home@twitter" ":replies@twitter"))
+      `(":home@twitter" ":replies@twitter"
+        ":home@sina" ":replies@sina" ":mentions@sina"
+        ))
 
 (setq twittering-accounts
       `((twitter
          (username "wd")
-        '(ssl t))))
+        '(ssl t))
+))
 
 (setq twittering-image-external-viewer-command
       (case system-type
