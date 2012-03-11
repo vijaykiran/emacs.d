@@ -24,8 +24,8 @@
       (fontset "fontset-my"))
   (create-fontset-from-fontset-spec
     (concat
-      ;; "-unknown-monofur-*-*-*-*-15-*-*-*-*-*-" fontset
-      "-unknown-Monaco-*-*-*-*-12-*-*-*-*-*-" fontset
+      ;; "-unknown-monofur-*-*-*-*-13-*-*-*-*-*-" fontset
+      "-unknown-Monaco-*-*-*-*-13-*-*-*-*-*-" fontset
       ",kana:"          zh-font
       ",han:"           zh-font
       ",symbol:"        zh-font
