@@ -276,67 +276,67 @@
 ;; top post
 ;; (setq message-cite-reply-above 't)
 
-;;
-;; bbdb
-;;
-(require 'bbdb)
-(bbdb-initialize)
-(add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
-;; bbdb 自己检查你填写的电话是否符合北美标准，
-;; 如果你不是生活在北美，应该取消这种检查
-(setq bbdb-north-american-phone-numbers-p nil)
+;; ;;
+;; ;; bbdb
+;; ;;
+;; (require 'bbdb)
+;; (bbdb-initialize)
+;; (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
+;; ;; bbdb 自己检查你填写的电话是否符合北美标准，
+;; ;; 如果你不是生活在北美，应该取消这种检查
+;; (setq bbdb-north-american-phone-numbers-p nil)
 
-;; 把你的 email 地址告诉 bbdb
-;; (setq bbdb-user-mail-names
-;;       (regexp-opt '(""
-;;                     "brep@newsmth.org")))
+;; ;; 把你的 email 地址告诉 bbdb
+;; ;; (setq bbdb-user-mail-names
+;; ;;       (regexp-opt '(""
+;; ;;                     "brep@newsmth.org")))
 
-;; 补全 email 地址的时候循环往复
-(setq bbdb-complete-name-allow-cycling t)
-;; No popup-buffers
-(setq bbdb-use-pop-up nil)
+;; ;; 补全 email 地址的时候循环往复
+;; (setq bbdb-complete-name-allow-cycling t)
+;; ;; No popup-buffers
+;; (setq bbdb-use-pop-up nil)
 
-(setq bbdb/mail-auto-create-p 'bbdb-prune-not-to-me)
-;; (setq bbdb/news-auto-create-p 'bbdb-prune-not-to-me)
-(defun bbdb-prune-not-to-me ()
-  "defun called when bbdb is trying to automatically create a record.  Filters out
-anything not actually adressed to me then passes control to 'bbdb-ignore-some-messages-hook'.
-Also filters out anything that is precedense 'junk' or 'bulk'  This code is from
-Ronan Waide < waider @ waider . ie >."
-  (let ((case-fold-search t)
-        (done nil)
-        (b (current-buffer))
-        (marker (bbdb-header-start))
-        field regexp fieldval)
-    (set-buffer (marker-buffer marker))
-    (save-excursion
-      ;; Hey ho. The buffer we're in is the mail file, narrowed to the
-      ;; current message.
-      (let (to cc precedence)
-        (goto-char marker)
-        (setq to (bbdb-extract-field-value "To"))
-        (goto-char marker)
-        (setq cc (bbdb-extract-field-value "Cc"))
-        (goto-char marker)
-        (setq precedence (bbdb-extract-field-value "Precedence"))
-        ;; Here's where you put your email information.
-        ;; Basically, you just add all the regexps you want for
-        ;; both the 'to' field and the 'cc' field.
-        (if (and (not (string-match "dong.wang@" (or to "")))
-                 (not (string-match "dong.wang@" (or cc ""))))
-            (progn
-              (message "BBDB unfiling; message to: %s cc: %s"
-                       (or to "noone") (or cc "noone"))
-              ;; Return nil so that the record isn't added.
-              nil)
+;; (setq bbdb/mail-auto-create-p 'bbdb-prune-not-to-me)
+;; ;; (setq bbdb/news-auto-create-p 'bbdb-prune-not-to-me)
+;; (defun bbdb-prune-not-to-me ()
+;;   "defun called when bbdb is trying to automatically create a record.  Filters out
+;; anything not actually adressed to me then passes control to 'bbdb-ignore-some-messages-hook'.
+;; Also filters out anything that is precedense 'junk' or 'bulk'  This code is from
+;; Ronan Waide < waider @ waider . ie >."
+;;   (let ((case-fold-search t)
+;;         (done nil)
+;;         (b (current-buffer))
+;;         (marker (bbdb-header-start))
+;;         field regexp fieldval)
+;;     (set-buffer (marker-buffer marker))
+;;     (save-excursion
+;;       ;; Hey ho. The buffer we're in is the mail file, narrowed to the
+;;       ;; current message.
+;;       (let (to cc precedence)
+;;         (goto-char marker)
+;;         (setq to (bbdb-extract-field-value "To"))
+;;         (goto-char marker)
+;;         (setq cc (bbdb-extract-field-value "Cc"))
+;;         (goto-char marker)
+;;         (setq precedence (bbdb-extract-field-value "Precedence"))
+;;         ;; Here's where you put your email information.
+;;         ;; Basically, you just add all the regexps you want for
+;;         ;; both the 'to' field and the 'cc' field.
+;;         (if (and (not (string-match "dong.wang@" (or to "")))
+;;                  (not (string-match "dong.wang@" (or cc ""))))
+;;             (progn
+;;               (message "BBDB unfiling; message to: %s cc: %s"
+;;                        (or to "noone") (or cc "noone"))
+;;               ;; Return nil so that the record isn't added.
+;;               nil)
 
-          (if (string-match "junk" (or precedence ""))
-              (progn
-                (message "precedence set to junk, bbdb ignoring.")
-                nil)
+;;           (if (string-match "junk" (or precedence ""))
+;;               (progn
+;;                 (message "precedence set to junk, bbdb ignoring.")
+;;                 nil)
 
-            ;; Otherwise add, subject to filtering
-            (bbdb-ignore-some-messages-hook)))))))
+;;             ;; Otherwise add, subject to filtering
+;;             (bbdb-ignore-some-messages-hook)))))))
 
 
 ;;
