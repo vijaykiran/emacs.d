@@ -85,9 +85,8 @@
 (setq column-number-mode t) 
 
 ;; 防止页面滚动时跳动， scroll-margin 3 可以在靠近屏幕边沿3行时就开始滚动，可以很好的看到上下文。
-(setq scroll-margin 3
-      scroll-conservatively 2)
-;; highlight-parentness-mode
+;; (setq scroll-margin 3
+;;       scroll-conservatively 2)
 
 ;;关闭烦人的出错时的提示声
 ;;(setq visible-bell t)
@@ -622,7 +621,8 @@ This will also reserve changes already made by a non-root user."
 (require 'multi-term)
 
 ;; (global-set-key term-send-reverse-search-history)
-;; (global-set-key (kbd "C-c n t") `multi-term)
+(global-set-key (kbd "C-c n t") `multi-term)
 (setq multi-term-buffer-name "term")
+;; (setq term-term-name "xterm-color")
 
 (provide 'wd-misc)
