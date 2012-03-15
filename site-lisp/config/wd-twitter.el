@@ -28,7 +28,9 @@
       )
 
 ;; Disable URI handling in twittering, let's use goto-address-mode instead.
-(setq twittering-regexp-uri "^^$")
+;; (setq twittering-regexp-uri "^^$")
+;; (setq twittering-regexp-uri  "\\(https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+\\)")
+
 
 ;; FIXME: in 23.2, who the hell autoload create-animated-image?? this exists in
 ;; 24 only.
@@ -57,7 +59,7 @@
 
 (add-hook 'twittering-mode-hook
           (lambda()
-            (goto-address-mode 1)
+            ;; (goto-address-mode 1)
             (set-face-foreground twittering-uri-face "lemon chiffon")
             ))
 
