@@ -37,6 +37,23 @@
   (set-default-font fontset)
   (add-to-list 'default-frame-alist `(font . ,fontset)))
 
+;; https://groups.google.com/group/cn.bbs.comp.emacs/browse_thread/thread/d0595a07685a956c
+;; (setq sl/x-font-en "Monaco:pixelsize=13"
+;;       sl/x-font-zh "STHeiTi"
+;;       sl/x-font-zh-size 13.5)
+
+;; (defun sl/set-x-font ()
+;;   (let ((fontset "fontset-default")
+;;         (zh-font (font-spec :family sl/x-font-zh :size sl/x-font-zh-size)))
+;;     (set-default-font sl/x-font-en)
+;;     (set-fontset-font fontset
+;;                       'nil '("Courier New" . "unicode-bmp"))
+;;     (set-fontset-font fontset
+;;                       'nil '("Baekmuk Dotum" . "unicode-bmp"))
+;;     (dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;       (set-fontset-font fontset charset zh-font))))
+;; (sl/set-x-font)
+
 ;;
 ;; color theme
 ;; 
