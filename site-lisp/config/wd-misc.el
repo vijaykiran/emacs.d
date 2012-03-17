@@ -606,8 +606,9 @@ This will also reserve changes already made by a non-root user."
 (defun switch-window-enumerate ()
  "Return a list of one-letter strings to label current windows"
  (subseq
-  (loop for x from 0 to 25 collect (byte-to-string (+ 97 x)))
-  0 (length (switch-window-list))))
+  (loop for w being the windows for x from 0 to 25 collect (byte-to-string (+ 65 32 x)))
+  0 (length (switch-window-list))
+))
 
 ;;
 ;; window move
