@@ -57,8 +57,8 @@
 ;;
 ;; color theme
 ;; 
-(require 'color-theme-hober2)
-(color-theme-hober2)
+;; (require 'color-theme-hober2)
+;; (color-theme-hober2)
 ;; (require 'color-theme-humane)
 ;; (color-theme-humane)
 
@@ -66,7 +66,10 @@
 ;; (color-theme-solarized-dark)
 ;; (require 'zenburn)
 ;; (color-theme-zenburn)
-
+(require 'color-theme-tomorrow)
+;; (color-theme-tomorrow-night)
+(color-theme-tomorrow-night-bright)
+;; (color-theme-tomorrow-night-eighties)
 
 ;;
 ;; for mac only
