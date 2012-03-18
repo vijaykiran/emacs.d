@@ -63,11 +63,14 @@
             (set-face-foreground twittering-uri-face "lemon chiffon")
             ))
 
-(define-key twittering-mode-map (kbd "C")
-      'twittering-erase-all)
+(define-key twittering-mode-map (kbd "h") 'twittering-refresh)
+(define-key twittering-mode-map (kbd "t") 'twittering-toggle-thumbnail)
+(define-key twittering-mode-map (kbd "R") 'twittering-retweet)
+(define-key twittering-mode-map (kbd "O") 'twittering-organic-retweet)
+(define-key twittering-mode-map (kbd "C") 'twittering-erase-all)
+(define-key twittering-mode-map (kbd "u") 'twittering-switch-to-unread-timeline)
+(define-key twittering-mode-map (kbd "@") 'twittering-reply-to-user)
 
-(define-key twittering-mode-map (kbd "u")
-      'twittering-switch-to-unread-timeline)
 
 (defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
 (setq wd-twittering-user-name-face 'wd-twittering-user-name-face)
