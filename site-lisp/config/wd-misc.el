@@ -508,19 +508,6 @@ This will also reserve changes already made by a non-root user."
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
-;; 
-;; switch-window mode
-;; 
-(require 'switch-window)
-
-;; (defun switch-window-enumerate ()
-;;  "Return a list of one-letter strings to label current windows"
-;;  (subseq
-;;   (loop with layout = (split-string quail-keyboard-layout "")
-;;         for row from 2 to 4
-;;         nconc (loop for col from 1 to 10
-;;                     collect (nth (+ 1 (* 2 col) (* 30 row)) layout)))
-;;   0 (length (switch-window-list))))
 
 (defun switch-window-enumerate ()
  "Return a list of one-letter strings to label current windows"

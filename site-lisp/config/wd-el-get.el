@@ -22,6 +22,12 @@
 (color-theme-tomorrow-night-bright)
 ;; (color-theme-tomorrow-night-eighties)
 
+;;
+;; anything
+;; 
+
+(global-set-key (kbd "M-X") 'anything-M-x)
+
 
 ;;
 ;; snippet
