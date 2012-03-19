@@ -2,6 +2,7 @@
 ;; main config file to load others
 ;;
 
+(require 'wd-el-get)
 (require 'wd-var)
 (require 'wd-misc)
 (require 'wd-org)

@@ -1,8 +1,9 @@
 (setq load-path
       (cons "~/.emacs.d/site-lisp/config"
-            (cons "~/.emacs.d/site-lisp/org2blog/"
-                  (cons "~/.emacs.d/site-lisp/" load-path)
-                  )))
+            ;; (cons "~/.emacs.d/site-lisp/org2blog/"
+                  (cons "~/.emacs.d/site-lisp/"
+                        (cons "~/.emacs.d/el-get/el-get"
+                  load-path))))
 
 (if (eq system-type 'darwin)
 	(setq load-path

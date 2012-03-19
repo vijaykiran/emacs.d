@@ -582,7 +582,7 @@ This will also reserve changes already made by a non-root user."
 ;; org2blog
 ;;
 
-(require 'org2blog-autoloads)
+;; (require 'org2blog-autoloads)
 (setq org2blog/wp-blog-alist
       `(("wdicc"
          :url "http://wdicc.com/xmlrpc.php"

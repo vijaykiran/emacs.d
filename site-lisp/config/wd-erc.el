@@ -240,8 +240,32 @@ matches a regexp in `erc-keywords'."
   (interactive)
   (setq erc-modified-channels-alist nil
         erc-modified-channels-object "")
-  (erc-modified-channels-update))
+  (erc-modified-channels-update)) 
 
 (global-set-key (kbd "C-c n C") 'wd-clear-erc-notify)
+
+;; The following are commented out by default, but users of other
+;; non-Emacs IRC clients might find them useful.
+;; Kill buffers for channels after /part
+(setq erc-kill-buffer-on-part t)
+;; Kill buffers for private queries after quitting the server
+(setq erc-kill-queries-on-quit t)
+;; Kill buffers for server messages after quitting the server
+(setq erc-kill-server-buffer-on-quit t)
+
+
+(defun filter-server-buffers ()
+  (delq nil
+        (mapcar
+         (lambda (x) (and (erc-server-buffer-p x) x))
+         (buffer-list))))
+
+(defun stop-irc ()
+  "Disconnects from all irc servers"
+  (interactive)
+  (dolist (buffer (filter-server-buffers))
+    (message "Server buffer: %s" (buffer-name buffer))
+    (with-current-buffer buffer
+      (erc-quit-server "Asta la vista"))))
 
 (provide 'wd-erc)
