@@ -1,0 +1,1 @@
+My emacs config files, I'm using el-get to manage some of my elisp packages. Check =emacs.d/el-get/.status.el= for detail.
