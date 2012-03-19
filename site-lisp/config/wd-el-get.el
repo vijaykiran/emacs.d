@@ -74,13 +74,10 @@
 (setq ac-dwim t)
 
 
-
-
 ;; 
 ;; org2blog
 ;;
 
-;; (require 'org2blog-autoloads)
 (setq org2blog/wp-blog-alist
       `(("wdicc"
          :url "http://wdicc.com/xmlrpc.php"
@@ -100,6 +97,9 @@
 #+TITLE:
 \n")
 
-
+;; 
+;; switch-window mode
+;; 
+(setq switch-window-shortcut-style 'alphabet)
 
 (provide 'wd-el-get)

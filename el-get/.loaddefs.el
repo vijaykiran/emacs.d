@@ -1427,9 +1427,9 @@ See `yas/minor-mode' for more information on Yas/Minor mode.
 ;;;;;;  "el-get/el-get-recipes.el" "el-get/el-get-status.el" "magit/50magit.el"
 ;;;;;;  "magit/magit-bisect.el" "magit/magit-key-mode.el" "magit/magit-pkg.el"
 ;;;;;;  "magit/magit-wip.el" "org2blog/metaweblog.el" "org2blog/org2blog-autoloads.el"
-;;;;;;  "org2blog/org2blog-pkg.el" "xml-rpc-el/xml-rpc.el" "yasnippet/dropdown-list.el"
-;;;;;;  "yasnippet/yasnippet-debug.el" "yasnippet/yasnippet-tests.el")
-;;;;;;  (20326 46069 739972))
+;;;;;;  "org2blog/org2blog-pkg.el" "switch-window/switch-window.el"
+;;;;;;  "xml-rpc-el/xml-rpc.el" "yasnippet/dropdown-list.el" "yasnippet/yasnippet-debug.el"
+;;;;;;  "yasnippet/yasnippet-tests.el") (20326 51834 509242))
 
 ;;;***
 

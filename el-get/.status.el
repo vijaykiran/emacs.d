@@ -65,6 +65,12 @@
                   :pkgname "punchagan/org2blog"
                   :depends xml-rpc-el
                   :features org2blog))
+ (switch-window status "installed" recipe
+                (:name switch-window
+                       :description "A *visual* way to choose a window to switch to"
+                       :type github
+                       :pkgname "dimitri/switch-window"
+                       :features switch-window))
  (xml-rpc-el status "installed" recipe
              (:name xml-rpc-el
                     :description "An elisp implementation of clientside XML-RPC"
