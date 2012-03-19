@@ -1,4 +1,14 @@
-((auto-complete status "installed" recipe
+((anything status "installed" recipe
+           (:name anything
+                  :website "http://www.emacswiki.org/emacs/Anything"
+                  :description "Open anything / QuickSilver-like candidate-selection framework"
+                  :type git
+                  :url "http://repo.or.cz/r/anything-config.git"
+                  :shallow nil
+                  :load-path
+                  ("." "extensions" "contrib")
+                  :features anything))
+ (auto-complete status "installed" recipe
                 (:name auto-complete
                        :website "http://cx4a.org/software/auto-complete/"
                        :description "The most intelligent auto-completion extension."
