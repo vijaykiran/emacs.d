@@ -36,7 +36,7 @@
 ;; snippet
 ;;
 (require 'yasnippet)
-(setq yas/snippet-dirs '("~/.emacs.d/site-lisp/yasnippets/text-mode"))
+(setq yas/snippet-dirs '("~/.emacs.d/snippets"))
 (yas/global-mode 1)
 ;; (yas/initialize)
 ;; (yas/load-directory "~/.emacs.d/site-lisp/yasnippets/text-mode")
