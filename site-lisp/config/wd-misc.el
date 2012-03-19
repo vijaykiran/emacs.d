@@ -22,20 +22,20 @@
 ;; 
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
-(let ((zh-font "STHeiTi:pixelsize=14")
-;; (let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
-      (fontset "fontset-my"))
-  (create-fontset-from-fontset-spec
-    (concat
-      ;; "-unknown-monofur-*-*-*-*-13-*-*-*-*-*-" fontset
-      "-unknown-Monaco-*-*-*-*-13-*-*-*-*-*-" fontset
-      ",kana:"          zh-font
-      ",han:"           zh-font
-      ",symbol:"        zh-font
-      ",cjk-misc:"      zh-font
-      ",bopomofo:"      zh-font))
-  (set-default-font fontset)
-  (add-to-list 'default-frame-alist `(font . ,fontset)))
+;; (let ((zh-font "STHeiTi:pixelsize=14")
+;; ;; (let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
+;;       (fontset "fontset-my"))
+;;   (create-fontset-from-fontset-spec
+;;     (concat
+;;       ;; "-unknown-monofur-*-*-*-*-13-*-*-*-*-*-" fontset
+;;       "-unknown-Monaco-*-*-*-*-13-*-*-*-*-*-" fontset
+;;       ",kana:"          zh-font
+;;       ",han:"           zh-font
+;;       ",symbol:"        zh-font
+;;       ",cjk-misc:"      zh-font
+;;       ",bopomofo:"      zh-font))
+;;   (set-default-font fontset)
+;;   (add-to-list 'default-frame-alist `(font . ,fontset)))
 
 ;; https://groups.google.com/group/cn.bbs.comp.emacs/browse_thread/thread/d0595a07685a956c
 ;; (setq sl/x-font-en "Monaco:pixelsize=13"
@@ -53,6 +53,45 @@
 ;;     (dolist (charset '(kana han symbol cjk-misc bopomofo))
 ;;       (set-fontset-font fontset charset zh-font))))
 ;; (sl/set-x-font)
+
+
+(setq sl/font-config
+      '((x ("Monaco" 13)
+           ("STHeiTi" 13.5))
+        (w32 ("Courier New" 12)
+             ("NSimSun" 20))
+        (ns ("Monaco" 12)
+            ("STHeiTi" 13))))
+
+(defun sl-set-gui-font ()
+  (let ((cfg (cdr
+              (assq window-system
+                     sl/font-config))))
+    (if cfg
+        (sl-set-gui-font-internal cfg)
+      (message "not in gui mode or cannot get proper font"))))
+
+;http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
+(defun sl-set-gui-font-internal (font-config)
+  (let ((fontset "fontset-default")
+        (font-def
+         (format "%s-%d"
+                 (car (car font-config))
+                 (cadr (car font-config))))
+        (font-zh
+         (font-spec
+          :family (car (cadr font-config))
+          :size (cadr (cadr font-config)))))
+
+    (set-frame-font font-def)
+    (set-fontset-font fontset
+                      'nil '("Courier New" . "unicode-bmp"))
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font fontset charset font-zh))))
+
+(sl-set-gui-font)
+;; (add-hook 'sl/after-make-gui-frame-hook 'sl-set-gui-font)
+
 
 
 ;;
@@ -246,12 +285,11 @@
 ;;
 ;; high light tail
 ;; 
-;; (require 'highlight-tail)
-;; (setq highlight-tail-colors  '(("#bc2525" . 0)))
-;; ;(setq highlight-tail-colors  '(("#ffd700" . 0)))
-;; ;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
-;; (highlight-tail-mode)
-
+(require 'highlight-tail)
+(setq highlight-tail-colors  '(("#bc2525" . 0)))
+;(setq highlight-tail-colors  '(("#ffd700" . 0)))
+;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
+(highlight-tail-mode)
 
 ;; 
 ;; tramp

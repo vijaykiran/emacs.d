@@ -3,7 +3,7 @@
 ;; 
 (require 'el-get)
 
-(el-get 'sync)
+(el-get)
 
 ;;
 ;; color theme
@@ -19,8 +19,10 @@
 ;; (color-theme-zenburn)
 (require 'color-theme-tomorrow)
 ;; (color-theme-tomorrow-night)
-(color-theme-tomorrow-night-bright)
-;; (color-theme-tomorrow-night-eighties)
+;; (color-theme-tomorrow-night-bright)
+(color-theme-tomorrow-night-eighties)
+;; (color-theme-almost-monokai)
+;; (color-theme-sanityinc-dark)
 
 ;;
 ;; anything
@@ -29,13 +31,15 @@
 (global-set-key (kbd "M-X") 'anything-M-x)
 
 
+
 ;;
 ;; snippet
 ;;
 (require 'yasnippet)
-(yas/initialize)
-;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
-(yas/load-directory "~/.emacs.d/site-lisp/yasnippets/text-mode")
+(setq yas/snippet-dirs '("~/.emacs.d/site-lisp/yasnippets/text-mode"))
+(yas/global-mode 1)
+;; (yas/initialize)
+;; (yas/load-directory "~/.emacs.d/site-lisp/yasnippets/text-mode")
 
 
 
@@ -46,21 +50,19 @@
 
 (require 'auto-complete-config)
 ;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/ac-dict")
-(require 'auto-complete-yasnippet)
+;; (require 'auto-complete-yasnippet)
 
 ;; (ac-config-default)
 
 (defun wd-ac-config ()
-;;  (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   (set-default 'ac-sources
-               '(;ac-source-semantic
-                 ac-source-yasnippet
-                 ac-source-abbrev
-                 ac-source-words-in-buffer
-                 ac-source-words-in-all-buffer
-                                        ;ac-source-imenu
+               '(ac-source-yasnippet
+                 ac-source-variables
+                 ac-source-symbols
+                 ac-source-features
+                 ac-source-functions 
+                 ac-source-words-in-same-mode-buffers
                  ac-source-files-in-current-dir
-                 ac-source-dictionary
                  ac-source-filename))
   (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
   (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
@@ -68,6 +70,8 @@
   (add-hook 'css-mode-hook 'ac-css-mode-setup)
   (add-hook 'auto-complete-mode-hook 'ac-common-setup)
   (global-auto-complete-mode t))
+
+;; (set-face-foreground ac-yasnippet-candidate-face "golden")
 
 (wd-ac-config)
 

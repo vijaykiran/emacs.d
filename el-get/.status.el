@@ -1,4 +1,10 @@
-((anything status "installed" recipe
+((ace-jump-mode status "installed" recipe
+                (:name ace-jump-mode
+                       :website "http://www.emacswiki.org/emacs/AceJump"
+                       :description "a quick cursor location minor mode for emacs"
+                       :type git
+                       :url "https://github.com/winterTTr/ace-jump-mode"))
+ (anything status "installed" recipe
            (:name anything
                   :website "http://www.emacswiki.org/emacs/Anything"
                   :description "Open anything / QuickSilver-like candidate-selection framework"
@@ -36,6 +42,24 @@
                      (progn
                        (color-theme-initialize)
                        (setq color-theme-is-global t))))
+ (color-theme-almost-monokai status "installed" recipe
+                             (:name color-theme-almost-monokai
+                                    :description "A beautiful, fruity, calm, yet dark color theme for Emacs."
+                                    :type github
+                                    :pkgname "lut4rp/almost-monokai"
+                                    :depends color-theme
+                                    :prepare
+                                    (autoload 'color-theme-almost-monokai "color-theme-almost-monokai" "color-theme: almost-monokai" t)))
+ (color-theme-sanityinc status "installed" recipe
+                        (:name color-theme-sanityinc
+                               :description "Two pleasant medium-contrast Emacs color themes in light and dark flavours"
+                               :type github
+                               :pkgname "purcell/color-theme-sanityinc"
+                               :depends color-theme
+                               :prepare
+                               (progn
+                                 (autoload 'color-theme-sanityinc-light "color-theme-sanityinc" "color-theme: sanityinc-light" t)
+                                 (autoload 'color-theme-sanityinc-dark "color-theme-sanityinc" "color-theme: sanityinc-dark" t))))
  (el-get status "installed" recipe
          (:name el-get
                 :website "https://github.com/dimitri/el-get#readme"

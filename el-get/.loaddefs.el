@@ -3,6 +3,34 @@
 ;;; Code:
 
 
+;;;### (autoloads (ace-jump-mode) "ace-jump-mode/ace-jump-mode" "ace-jump-mode/ace-jump-mode.el"
+;;;;;;  (20327 17577))
+;;; Generated autoloads from ace-jump-mode/ace-jump-mode.el
+
+(autoload 'ace-jump-mode "ace-jump-mode/ace-jump-mode" "\
+AceJump mode is a minor mode for you to quick jump to a
+position in the curret view.
+   There is three submode now:
+     `ace-jump-char-mode'
+     `ace-jump-word-mode'
+     `ace-jump-line-mode'
+
+You can specify the sequence about which mode should enter
+by customize `ace-jump-mode-submode-list'.
+
+If you do not want to query char for word mode, you can change
+`ace-jump-word-mode-use-query-char' to nil.
+
+If you don't like the default move keys, you can change it by
+setting `ace-jump-mode-move-keys'.
+
+You can constrol whether use the case sensitive via
+`ace-jump-mode-case-fold'.
+
+\(fn &optional PREFIX)" t nil)
+
+;;;***
+
 ;;;### (autoloads (anything-other-buffer anything-at-point anything)
 ;;;;;;  "anything/anything" "anything/anything.el" (20326 46062))
 ;;; Generated autoloads from anything/anything.el
@@ -1420,16 +1448,17 @@ See `yas/minor-mode' for more information on Yas/Minor mode.
 ;;;;;;  "anything/extensions/anything-complete.el" "anything/extensions/anything-gtags.el"
 ;;;;;;  "anything/extensions/anything-obsolete.el" "anything/extensions/anything-show-completion.el"
 ;;;;;;  "auto-complete/auto-complete-config.el" "auto-complete/auto-complete.el"
-;;;;;;  "auto-complete/fuzzy.el" "auto-complete/popup.el" "color-theme/color-theme-autoloads.el"
-;;;;;;  "el-get/el-get-autoloads.el" "el-get/el-get-build.el" "el-get/el-get-byte-compile.el"
-;;;;;;  "el-get/el-get-core.el" "el-get/el-get-custom.el" "el-get/el-get-dependencies.el"
-;;;;;;  "el-get/el-get-install.el" "el-get/el-get-methods.el" "el-get/el-get-notify.el"
-;;;;;;  "el-get/el-get-recipes.el" "el-get/el-get-status.el" "magit/50magit.el"
-;;;;;;  "magit/magit-bisect.el" "magit/magit-key-mode.el" "magit/magit-pkg.el"
-;;;;;;  "magit/magit-wip.el" "org2blog/metaweblog.el" "org2blog/org2blog-autoloads.el"
-;;;;;;  "org2blog/org2blog-pkg.el" "switch-window/switch-window.el"
-;;;;;;  "xml-rpc-el/xml-rpc.el" "yasnippet/dropdown-list.el" "yasnippet/yasnippet-debug.el"
-;;;;;;  "yasnippet/yasnippet-tests.el") (20326 51834 509242))
+;;;;;;  "auto-complete/fuzzy.el" "auto-complete/popup.el" "color-theme-almost-monokai/color-theme-almost-monokai.el"
+;;;;;;  "color-theme-sanityinc/color-theme-sanityinc.el" "color-theme/color-theme-autoloads.el"
+;;;;;;  "el-get/el-get-autoloads.el" "el-get/el-get-core.el" "el-get/el-get-custom.el"
+;;;;;;  "el-get/el-get-dependencies.el" "el-get/el-get-install.el"
+;;;;;;  "el-get/el-get-methods.el" "el-get/el-get-notify.el" "el-get/el-get-recipes.el"
+;;;;;;  "magit/50magit.el" "magit/magit-bisect.el" "magit/magit-key-mode.el"
+;;;;;;  "magit/magit-pkg.el" "magit/magit-wip.el" "org2blog/metaweblog.el"
+;;;;;;  "org2blog/org2blog-autoloads.el" "org2blog/org2blog-pkg.el"
+;;;;;;  "switch-window/switch-window.el" "xml-rpc-el/xml-rpc.el"
+;;;;;;  "yasnippet/dropdown-list.el" "yasnippet/yasnippet-debug.el"
+;;;;;;  "yasnippet/yasnippet-tests.el") (20327 17578 487409))
 
 ;;;***
 
