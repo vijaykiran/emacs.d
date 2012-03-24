@@ -1,6 +1,7 @@
 #name : slides title
+#key : slides
 # --
-#+INFOJS_OPT: path:/home/wd/.emacs.d/org-info.js
+#+INFOJS_OPT: path:~/.emacs.d/org-info.js
 #+INFOJS_OPT: toc:nil localtoc:t view:info mouse:underline buttons:nil
 #+TITLE: $1
 #+AUTHOR: wd

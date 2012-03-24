@@ -344,4 +344,18 @@
 
 (setq gnus-read-active-file nil)
 
+(setq gnus-posting-styles
+      '((".*"
+         (signature "wdicc.com")
+         (name "wd")
+         (organization "wd")
+         (address "wd@wdicc.com"))
+        ("cn.bbs"
+         (name "wd")
+         (signature "wd@smth")
+         (address "wd@wdicc.com")
+         (eval (setq mm-coding-system-priorities
+                     '(iso-8859-1 gb2312 gbk utf-8))))
+        ))
+
 (provide 'wd-gnus)

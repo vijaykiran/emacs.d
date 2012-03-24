@@ -3,44 +3,67 @@
 ;; 
 (require 'el-get)
 
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-recipes/" 'append)
+
 (el-get)
 
 ;;
 ;; color theme
 ;; 
-;; (require 'color-theme-hober2)
-;; (color-theme-hober2)
+(require 'color-theme-hober2)
+(color-theme-hober2)
+(set-face-attribute 'font-lock-comment-face nil
+                    :slant 'normal)
+
 ;; (require 'color-theme-humane)
 ;; (color-theme-humane)
 
 ;; (require 'color-theme-solarized)
 ;; (color-theme-solarized-dark)
 ;; (require 'zenburn)
-;; (color-theme-zenburn)
-(require 'color-theme-tomorrow)
+;; (color-theme-zenburn);; 
+;; (require 'color-theme-tomorrow)
 ;; (color-theme-tomorrow-night)
 ;; (color-theme-tomorrow-night-bright)
-(color-theme-tomorrow-night-eighties)
+;; (color-theme-tomorrow-night-eighties)
 ;; (color-theme-almost-monokai)
 ;; (color-theme-sanityinc-dark)
+;; (color-theme-solarized)
+;; (require 'color-theme-zenburn)
+;; (color-theme-zenburn)
+;; (require 'color-theme-darkmate)
+;; (color-theme-darkmate)
 
 ;;
 ;; anything
 ;; 
 
-(global-set-key (kbd "M-X") 'anything-M-x)
+(require 'anything-config)
+(global-set-key (kbd "M-X") 'sl-anything)
+(global-set-key (kbd "M-x") 'anything-M-x)
 
-
+(defun sl-anything (&optional resume)
+  (interactive "P")
+  (if (null resume)
+      (anything
+       :sources '(anything-c-source-buffers-list
+                  anything-c-source-recentf
+                  anything-c-source-files-in-current-dir+
+                  anything-c-source-buffer-not-found))
+    (anything-resume)))
 
 ;;
 ;; snippet
 ;;
 (require 'yasnippet)
-(setq yas/snippet-dirs '("~/.emacs.d/snippets"))
+(add-to-list 'yas/snippet-dirs "~/.emacs.d/snippets" 'append)
 (yas/global-mode 1)
 ;; (yas/initialize)
 ;; (yas/load-directory "~/.emacs.d/site-lisp/yasnippets/text-mode")
 
+;; (custom-set-faces
+;;  '(ac-yasnippet-candidate-face ((t (:foreground "golden"))))
+;; )
 
 
 ;;
@@ -111,5 +134,16 @@
 ;; switch-window mode
 ;; 
 (setq switch-window-shortcut-style 'alphabet)
+
+;; 
+;; magit
+;; 
+
+(set-face-attribute 'magit-item-highlight nil
+                    :underline nil
+                    :background "gray14"
+                    :foreground nil
+                    :inherit nil
+)
 
 (provide 'wd-el-get)

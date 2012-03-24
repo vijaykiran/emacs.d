@@ -9,7 +9,6 @@
 ;; 
 ;; (setq browse-url-browser-function 'browse-url-generic
 ;;       browse-url-generic-program "google-chrome")
-
 (if (eq system-type 'darwin)
     (setq browse-url-browser-function 'browse-url-default-macosx-browser)
   (setq browse-url-browser-function 'browse-url-firefox
@@ -19,28 +18,74 @@
 
 ;;
 ;; fonts
+;;
+;; (defun qiang-font-existsp (font)
+;;   (if (null (x-list-fonts font))
+;;       nil t))
 ;; 
+;; (defun qiang-make-font-string (font-name font-size)
+;;   (if (and (stringp font-size) 
+;;            (equal ":" (string (elt font-size 0))))
+;;       (format "%s%s" font-name font-size)
+;;     (format "%s %s" font-name font-size)))
+;; 
+;; (defun qiang-set-font (english-fonts
+;;                        english-font-size
+;;                        chinese-fonts
+;;                        &optional chinese-font-size)
+;;   "english-font-size could be set to \":pixelsize=18\" or a integer.
+;; If set/leave chinese-font-size to nil, it will follow english-font-size"
+;;   (require 'cl)                         ; for find if
+;;   (let ((en-font (qiang-make-font-string
+;;                   (find-if #'qiang-font-existsp english-fonts)
+;;                   english-font-size))
+;;         (zh-font (font-spec :family (find-if #'qiang-font-existsp chinese-fonts)
+;;                             :size chinese-font-size)))
+;;  
+;;     ;; Set the default English font
+;;     ;; 
+;;     ;; The following 2 method cannot make the font settig work in new frames.
+;;     ;; (set-default-font "Consolas:pixelsize=18")
+;;     ;; (add-to-list 'default-frame-alist '(font . "Consolas:pixelsize=18"))
+;;     ;; We have to use set-face-attribute
+;;     (message "Set English Font to %s" en-font)
+;;     (set-face-attribute
+;;      'default nil :font en-font)
+;;  
+;;     ;; Set Chinese font 
+;;     ;; Do not use 'unicode charset, it will cause the english font setting invalid
+;;     (message "Set Chinese Font to %s" zh-font)
+;;     (dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;       (set-fontset-font (frame-parameter nil 'font)
+;;                         charset
+;;                         zh-font))))
+;; 
+;; (qiang-set-font
+;;  '("Monaco" "Monospace") ":pixelsize=13"
+;;  '("STHeiti" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体") 13.5)
+
+
 ;; http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
 ;; Way 1
-;; (let ((zh-font "STHeiTi:pixelsize=14")
-;; ;; (let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
-;;       (fontset "fontset-my"))
-;;   (create-fontset-from-fontset-spec
-;;     (concat
-;;       ;; "-unknown-monofur-*-*-*-*-13-*-*-*-*-*-" fontset
-;;       "-unknown-Monaco-*-*-*-*-13-*-*-*-*-*-" fontset
-;;       ",kana:"          zh-font
-;;       ",han:"           zh-font
-;;       ",symbol:"        zh-font
-;;       ",cjk-misc:"      zh-font
-;;       ",bopomofo:"      zh-font))
-;;   (set-default-font fontset)
-;;   (add-to-list 'default-frame-alist `(font . ,fontset)))
+(let ((zh-font "STHeiTi:pixelsize=13")
+;; (let ((zh-font "WenQuanYi Zen Hei Mono:pixelsize=14")
+      (fontset "fontset-my"))
+  (create-fontset-from-fontset-spec
+    (concat
+      ;; "-unknown-monofur-*-*-*-*-13-*-*-*-*-*-" fontset
+      "-unknown-Monaco-*-*-*-*-12-*-*-*-*-*-" fontset
+      ",kana:"          zh-font
+      ",han:"           zh-font
+      ",symbol:"        zh-font
+      ",cjk-misc:"      zh-font
+      ",bopomofo:"      zh-font))
+  (set-default-font fontset)
+  (add-to-list 'default-frame-alist `(font . ,fontset)))
 
 ;; https://groups.google.com/group/cn.bbs.comp.emacs/browse_thread/thread/d0595a07685a956c
-;; (setq sl/x-font-en "Monaco:pixelsize=13"
+;; (setq sl/x-font-en "Monaco:pixelsize=12"
 ;;       sl/x-font-zh "STHeiTi"
-;;       sl/x-font-zh-size 13.5)
+;;       sl/x-font-zh-size 13)
 
 ;; (defun sl/set-x-font ()
 ;;   (let ((fontset "fontset-default")
@@ -55,42 +100,42 @@
 ;; (sl/set-x-font)
 
 
-(setq sl/font-config
-      '((x ("Monaco" 13)
-           ("STHeiTi" 13.5))
-        (w32 ("Courier New" 12)
-             ("NSimSun" 20))
-        (ns ("Monaco" 12)
-            ("STHeiTi" 13))))
+;; (setq sl/font-config
+;;       '((x ("Monaco" 12)
+;;            ("STHeiTi" 13))
+;;         (w32 ("Courier New" 12)
+;;              ("NSimSun" 13))
+;;         (ns ("Monaco" 12)
+;;             ("STHeiTi" 13))))
 
-(defun sl-set-gui-font ()
-  (let ((cfg (cdr
-              (assq window-system
-                     sl/font-config))))
-    (if cfg
-        (sl-set-gui-font-internal cfg)
-      (message "not in gui mode or cannot get proper font"))))
+;; (defun sl-set-gui-font ()
+;;   (let ((cfg (cdr
+;;               (assq window-system
+;;                      sl/font-config))))
+;;     (if cfg
+;;         (sl-set-gui-font-internal cfg)
+;;       (message "not in gui mode or cannot get proper font"))))
 
-;http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
-(defun sl-set-gui-font-internal (font-config)
-  (let ((fontset "fontset-default")
-        (font-def
-         (format "%s-%d"
-                 (car (car font-config))
-                 (cadr (car font-config))))
-        (font-zh
-         (font-spec
-          :family (car (cadr font-config))
-          :size (cadr (cadr font-config)))))
+;; ;http://jff.googlecode.com/svn/trunk/XDE/xde/emacs/dot_emacs.d/site-start.d/01_font.el
+;; (defun sl-set-gui-font-internal (font-config)
+;;   (let ((fontset "fontset-default")
+;;         (font-def
+;;          (format "%s-%d"
+;;                  (car (car font-config))
+;;                  (cadr (car font-config))))
+;;         (font-zh
+;;          (font-spec
+;;           :family (car (cadr font-config))
+;;           :size (cadr (cadr font-config)))))
 
-    (set-frame-font font-def)
-    (set-fontset-font fontset
-                      'nil '("Courier New" . "unicode-bmp"))
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font fontset charset font-zh))))
+;;     (set-frame-font font-def)
+;;     (set-fontset-font fontset
+;;                       'nil '("Courier New" . "unicode-bmp"))
+;;     (dolist (charset '(kana han symbol cjk-misc bopomofo))
+;;       (set-fontset-font fontset charset font-zh))))
 
-(sl-set-gui-font)
-;; (add-hook 'sl/after-make-gui-frame-hook 'sl-set-gui-font)
+;; (sl-set-gui-font)
+;; ;; (add-hook 'sl/after-make-gui-frame-hook 'sl-set-gui-font)
 
 
 
@@ -547,13 +592,6 @@ This will also reserve changes already made by a non-root user."
 (put 'narrow-to-page 'disabled nil)
 
 
-(defun switch-window-enumerate ()
- "Return a list of one-letter strings to label current windows"
- (subseq
-  (loop for w being the windows for x from 0 to 25 collect (byte-to-string (+ 65 32 x)))
-  0 (length (switch-window-list))
-))
-
 ;;
 ;; window move
 ;; 
@@ -569,5 +607,25 @@ This will also reserve changes already made by a non-root user."
 (global-set-key (kbd "C-c n t") `multi-term)
 (setq multi-term-buffer-name "term")
 ;; (setq term-term-name "xterm-color")
+
+
+;; 
+;; org-confluence
+;; 
+(require 'org-confluence)
+;; https://github.com/hgschmie/org-confluence
+
+
+;; 
+;; diff color
+;; 
+
+(set-face-attribute 'diff-added nil
+                    :foreground "#ffcc66")
+
+(set-face-attribute 'diff-removed nil
+                    :foreground "#f2777a")
+ 
+
 
 (provide 'wd-misc)

@@ -1,9 +1,28 @@
 (setq nick-face-list '())
 
 ;; Define the list of colors to use when coloring IRC nicks.                                                                     
-(setq-default erc-colors-list '("blue" "green" "yellow"
-                                "white" "brown" "red"
-                                "purple" "pink" "cyan"))
+;; (setq-default erc-colors-list '("blue" "green" "yellow"
+;;                                 "white" "brown" "red"
+;;                                 "purple" "pink" "cyan"))
+
+(setq-default erc-colors-list 
+              '("#eaeaea"
+                "#d54e53"
+                "#e78c45"
+                "#e7c547"
+                "#b9ca4a"
+                "#70c0b1"
+                "#7aa6da"
+                "#c397d8"
+                "blue"
+                "green"
+                "yellow"
+                "red"
+                "cyan"
+                "purple"
+                "pink"
+))
+
 (defun build-nick-face-list ()
   (setq i -1)
   (setq nick-face-list

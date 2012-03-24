@@ -1,0 +1,7 @@
+(:name twittering-mode-xwl
+       :website "git://github.com/xwl/twittering-mode"
+       :description "Major mode for Twitter, fork by xwl"
+       :type github
+       :pkgname "xwl/twittering-mode"
+       :features twittering-mode
+       :compile "twittering-mode.el")

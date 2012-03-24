@@ -60,6 +60,28 @@
                                (progn
                                  (autoload 'color-theme-sanityinc-light "color-theme-sanityinc" "color-theme: sanityinc-light" t)
                                  (autoload 'color-theme-sanityinc-dark "color-theme-sanityinc" "color-theme: sanityinc-dark" t))))
+ (color-theme-solarized status "removed" recipe
+                        (:name color-theme-solarized
+                               :description "Emacs highlighting using Ethan Schoonover's Solarized color scheme"
+                               :type github
+                               :pkgname "sellout/emacs-color-theme-solarized"
+                               :depends color-theme
+                               :prepare
+                               (progn
+                                 (add-to-list 'custom-theme-load-path default-directory)
+                                 (autoload 'color-theme-solarized-light "color-theme-solarized" "color-theme: solarized-light" t)
+                                 (autoload 'color-theme-solarized-dark "color-theme-solarized" "color-theme: solarized-dark" t))))
+ (color-theme-zenburn status "installed" recipe
+                      (:type github
+                             :username "emacsmirror"
+                             :name color-theme-zenburn
+                             :type emacsmirror
+                             :pkgname "zenburn-theme"
+                             :description "Just some alien fruit salad to keep you in the zone"
+                             :prepare
+                             (progn
+                               (autoload 'color-theme-zenburn "zenburn" "Just some alien fruit salad to keep you in the zone." t)
+                               (defalias 'zenburn #'color-theme-zenburn))))
  (el-get status "installed" recipe
          (:name el-get
                 :website "https://github.com/dimitri/el-get#readme"
@@ -69,6 +91,19 @@
                 :pkgname "dimitri/el-get"
                 :features el-get
                 :load "el-get.el"))
+ (emms status "removed" recipe
+       (:name emms
+              :description "The Emacs Multimedia System"
+              :type git
+              :url "git://git.sv.gnu.org/emms.git"
+              :info "doc"
+              :load-path
+              ("./lisp")
+              :features emms-setup
+              :build
+              `(,(format "mkdir -p %s/emms " user-emacs-directory)
+                ,(concat "make EMACS=" el-get-emacs " SITEFLAG=\"--no-site-file -L " el-get-dir "/emacs-w3m/ \"" " autoloads lisp docs"))
+              :depends emacs-w3m))
  (magit status "installed" recipe
         (:name magit
                :website "https://github.com/magit/magit#readme"
@@ -89,12 +124,27 @@
                   :pkgname "punchagan/org2blog"
                   :depends xml-rpc-el
                   :features org2blog))
+ (php-mode-improved status "installed" recipe
+                    (:name php-mode-improved
+                           :description "Major mode for editing PHP code. This is a version of the php-mode from http://php-mode.sourceforge.net that fixes a few bugs which make using php-mode much more palatable"
+                           :type emacswiki
+                           :load
+                           ("php-mode-improved.el")
+                           :features php-mode))
  (switch-window status "installed" recipe
                 (:name switch-window
                        :description "A *visual* way to choose a window to switch to"
                        :type github
                        :pkgname "dimitri/switch-window"
                        :features switch-window))
+ (twittering-mode-xwl status "installed" recipe
+                      (:name twittering-mode-xwl
+                             :website "git://github.com/xwl/twittering-mode"
+                             :description "Major mode for Twitter, fork by xwl"
+                             :type github
+                             :pkgname "xwl/twittering-mode"
+                             :features twittering-mode
+                             :compile "twittering-mode.el"))
  (xml-rpc-el status "installed" recipe
              (:name xml-rpc-el
                     :description "An elisp implementation of clientside XML-RPC"

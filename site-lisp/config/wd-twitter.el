@@ -3,6 +3,8 @@
 ;; 
 (require 'twittering-mode)
 
+(setq twittering-use-master-password t)
+
 (setq twittering-fill-column 60)
 ;; (setq twittering-my-fill-column 30)
 
@@ -46,9 +48,11 @@
 
 (setq twittering-accounts
       `((twitter
-         (username "wd")
+         ;; (username "wd")
         '(ssl t))
-))
+      (sina
+       (quote after)))
+)
 
 (setq twittering-image-external-viewer-command
       (case system-type
@@ -75,8 +79,21 @@
 (defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
 (setq wd-twittering-user-name-face 'wd-twittering-user-name-face)
 
-(defface wd-twittering-other-face `((t (:foreground "dark slate grey"))) "" )
+(defface wd-twittering-other-face `((t (:foreground "cadet blue"))) "" )
 (setq wd-twittering-other-face 'wd-twittering-other-face)
+
+(defface wd-twittering-quoted-face `((t (:foreground "indian red"))) "" )
+(setq wd-twittering-quoted-face 'wd-twittering-quoted-face)
+
+;; (setq twittering-format-tweet-text-function
+;;       'my-twittering-format-tweet-text-function)
+
+;; (defun my-twittering-format-tweet-text-function (quoted-text text status)
+;;   (if quoted-text
+;;       (concat text "\n\n " (propertize
+;;                               quoted-text
+;;                               'face wd-twittering-quoted-face))
+;;     text))
 
 
 (setq twittering-status-format
