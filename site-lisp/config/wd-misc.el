@@ -615,17 +615,4 @@ This will also reserve changes already made by a non-root user."
 (require 'org-confluence)
 ;; https://github.com/hgschmie/org-confluence
 
-
-;; 
-;; diff color
-;; 
-
-(set-face-attribute 'diff-added nil
-                    :foreground "#ffcc66")
-
-(set-face-attribute 'diff-removed nil
-                    :foreground "#f2777a")
- 
-
-
 (provide 'wd-misc)

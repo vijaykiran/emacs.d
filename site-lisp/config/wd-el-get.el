@@ -139,11 +139,20 @@
 ;; magit
 ;; 
 
-(set-face-attribute 'magit-item-highlight nil
-                    :underline nil
-                    :background "gray14"
-                    :foreground nil
-                    :inherit nil
-)
+(eval-after-load 'magit
+  '(progn
+    (message "load magit")
+    (set-face-attribute 'magit-item-highlight nil
+			:underline nil
+			:background "gray14"
+			:foreground nil
+			:inherit nil
+			)
+    (set-face-attribute 'diff-added nil
+                        :foreground "#ffcc66")
+
+    (set-face-attribute 'diff-removed nil
+                        :foreground "#f2777a")
+))
 
 (provide 'wd-el-get)
