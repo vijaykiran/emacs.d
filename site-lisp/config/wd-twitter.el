@@ -14,10 +14,6 @@
 (set-face-background twittering-zebra-1-face "black")
 (set-face-background twittering-zebra-2-face "black")
 
-
-(define-key twittering-mode-map (kbd "C")
-      'twittering-erase-all)
-
 ;; notify me at status bar when there is new tweet
 (twittering-enable-unread-status-notifier)
 ;; show icon in tweet
@@ -48,21 +44,30 @@
         ":home@sina" ":replies@sina" ":mentions@sina"
         ))
 
+(defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
+(setq wd-twittering-user-name-face 'wd-twittering-user-name-face)
+
+(defface wd-twittering-other-face `((t (:foreground "cadet blue"))) "" )
+(setq wd-twittering-other-face 'wd-twittering-other-face)
+
+(defface wd-twittering-quoted-face `((t (:foreground "indian red"))) "" )
+(setq wd-twittering-quoted-face 'wd-twittering-quoted-face)
+
 (setq twittering-accounts
       `((twitter
          (ssl t)
          (quotation before)
-         (status-format
-          "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
-         (my-status-format
-          "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         ;; (status-format
+         ;;  "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         ;; (my-status-format
+         ;;  "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
          )
         (sina
          (quotation after)
-         (status-format
-          "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
-         (my-status-format
-          "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         ;; (status-format
+         ;;  "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         ;; (my-status-format
+         ;;  "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
          ))
 )
 
@@ -88,21 +93,11 @@
 (define-key twittering-mode-map (kbd "@") 'twittering-reply-to-user)
 (define-key twittering-mode-map (kbd "C-c @") 'twittering-reply-all)
 
-
-(defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
-(setq wd-twittering-user-name-face 'wd-twittering-user-name-face)
-
-(defface wd-twittering-other-face `((t (:foreground "cadet blue"))) "" )
-(setq wd-twittering-other-face 'wd-twittering-other-face)
-
-(defface wd-twittering-quoted-face `((t (:foreground "indian red"))) "" )
-(setq wd-twittering-quoted-face 'wd-twittering-quoted-face)
-
-;; (setq twittering-status-format
-;;       "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
-;;       twittering-my-status-format
-;;       "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
-;; )
+(setq twittering-status-format
+      "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
+      twittering-my-status-format
+      "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
+)
 
 ;; (setq twittering-status-format
 ;;       "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f:}\n%FOLD[       ]{%t}\n%r%R\n")
