@@ -3,6 +3,8 @@
 ;; 
 (require 'twittering-mode)
 
+(add-to-list 'exec-path "/usr/local/bin" 'append)
+
 (setq twittering-use-master-password t)
 
 (setq twittering-fill-column 60)
@@ -48,10 +50,20 @@
 
 (setq twittering-accounts
       `((twitter
-         ;; (username "wd")
-        '(ssl t))
-      (sina
-       (quote after)))
+         (ssl t)
+         (quotation before)
+         (status-format
+          "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         (my-status-format
+          "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         )
+        (sina
+         (quotation after)
+         (status-format
+          "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         (my-status-format
+          "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n")
+         ))
 )
 
 (setq twittering-image-external-viewer-command
@@ -74,6 +86,7 @@
 (define-key twittering-mode-map (kbd "C") 'twittering-erase-all)
 (define-key twittering-mode-map (kbd "u") 'twittering-switch-to-unread-timeline)
 (define-key twittering-mode-map (kbd "@") 'twittering-reply-to-user)
+(define-key twittering-mode-map (kbd "C-c @") 'twittering-reply-all)
 
 
 (defface wd-twittering-user-name-face `((t (:height 1.4 :foreground "LightSalmon"))) "" )
@@ -85,26 +98,16 @@
 (defface wd-twittering-quoted-face `((t (:foreground "indian red"))) "" )
 (setq wd-twittering-quoted-face 'wd-twittering-quoted-face)
 
-;; (setq twittering-format-tweet-text-function
-;;       'my-twittering-format-tweet-text-function)
-
-;; (defun my-twittering-format-tweet-text-function (quoted-text text status)
-;;   (if quoted-text
-;;       (concat text "\n\n " (propertize
-;;                               quoted-text
-;;                               'face wd-twittering-quoted-face))
-;;     text))
-
-
-(setq twittering-status-format
-      "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
-      twittering-my-status-format
-      "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
-)
+;; (setq twittering-status-format
+;;       "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f}\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
+;;       twittering-my-status-format
+;;       "%FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f} %i\n%FOLD[         ]{%t}\n%FOLD[         ]{%r%R}\n"
+;; )
 
 ;; (setq twittering-status-format
 ;;       "%i %FACE[wd-twittering-user-name-face]{%s} %FACE[wd-twittering-other-face]{%g, from %f:}\n%FOLD[       ]{%t}\n%r%R\n")
 
-(setq twittering-curl-extra-parameters '("--socks5-hostname" "127.0.0.1:7070"))
+(setq twittering-curl-socks-proxy '("--socks5-hostname" "127.0.0.1:7070")
+      twittering-uri-regexp-to-proxy "twitter.com")
 
 (provide 'wd-twitter)

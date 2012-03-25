@@ -1548,7 +1548,7 @@ Major mode for editing PHP code.
 ;;;***
 
 ;;;### (autoloads (twit) "twittering-mode-xwl/twittering-mode" "twittering-mode-xwl/twittering-mode.el"
-;;;;;;  (20333 30886))
+;;;;;;  (20335 10745))
 ;;; Generated autoloads from twittering-mode-xwl/twittering-mode.el
 
 (autoload 'twit "twittering-mode-xwl/twittering-mode" "\
@@ -1619,7 +1619,7 @@ See `yas/minor-mode' for more information on Yas/Minor mode.
 ;;;;;;  "org2blog/org2blog-pkg.el" "switch-window/switch-window.el"
 ;;;;;;  "twittering-mode-xwl/test.el" "xml-rpc-el/xml-rpc.el" "yasnippet/dropdown-list.el"
 ;;;;;;  "yasnippet/yasnippet-debug.el" "yasnippet/yasnippet-tests.el")
-;;;;;;  (20333 30887 543926))
+;;;;;;  (20335 10746 391182))
 
 ;;;***
 
