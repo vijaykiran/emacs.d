@@ -1,3 +1,5 @@
+(require 'json)
+
 ;; sdcv in eamcs
 ;; author: pluskid
 ;; 调用 stardict 的命令行程序 sdcv 来查辞典
@@ -80,12 +82,5 @@
                                         (unless (null (cdr (window-list))) ; only one window
                                           (delete-window)))))
            (goto-char (point-min))))))))
-
-
-(require 'json)
-
-(json-read-string 
-
-
 
 (provide 'wd-dict)
