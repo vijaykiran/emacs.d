@@ -71,6 +71,22 @@
                                  (add-to-list 'custom-theme-load-path default-directory)
                                  (autoload 'color-theme-solarized-light "color-theme-solarized" "color-theme: solarized-light" t)
                                  (autoload 'color-theme-solarized-dark "color-theme-solarized" "color-theme: solarized-dark" t))))
+ (color-theme-tango-2 status "installed" recipe
+                      (:name color-theme-tango-2
+                             :description "A color theme based on Tango Palette."
+                             :type github
+                             :pkgname "wfarr/color-theme-tango-2"
+                             :depends color-theme
+                             :prepare
+                             (autoload 'color-theme-tango-2 "color-theme-tango-2" "color-theme: tango-2" t)))
+ (color-theme-tangotango status "installed" recipe
+                         (:name color-theme-tangotango
+                                :description "Another color theme based on the Tango palette."
+                                :type github
+                                :pkgname "juba/color-theme-tangotango"
+                                :depends color-theme
+                                :prepare
+                                (autoload 'color-theme-tangotango "color-theme-tangotango" "color-theme: tangotango" t)))
  (color-theme-zenburn status "installed" recipe
                       (:type github
                              :username "emacsmirror"
@@ -124,6 +140,11 @@
                   :pkgname "punchagan/org2blog"
                   :depends xml-rpc-el
                   :features org2blog))
+ (pastebin status "installed" recipe
+           (:name pastebin
+                  :description "An Emacs interface to pastebin.com."
+                  :type emacswiki
+                  :features pastebin))
  (php-mode-improved status "installed" recipe
                     (:name php-mode-improved
                            :description "Major mode for editing PHP code. This is a version of the php-mode from http://php-mode.sourceforge.net that fixes a few bugs which make using php-mode much more palatable"
@@ -145,6 +166,11 @@
                              :pkgname "xwl/twittering-mode"
                              :features twittering-mode
                              :compile "twittering-mode.el"))
+ (xclip status "installed" recipe
+        (:name xclip
+               :description "Emacs Interface to XClip"
+               :type http
+               :url "http://www.mail-archive.com/gnu-emacs-sources@gnu.org/msg01336/xclip.el"))
  (xml-rpc-el status "installed" recipe
              (:name xml-rpc-el
                     :description "An elisp implementation of clientside XML-RPC"

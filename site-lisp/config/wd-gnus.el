@@ -7,7 +7,7 @@
 ;; 				  (nnimap-server-port 993)
 ;; 				  (nnimap-stream ssl)))
 
-;; (setq gnus-secondary-select-methods '((nntp "nntp.aioe.org")))
+;; (setq gnus-secondary-select-methods '((nntp "news.newsfans.net")))
 (setq gnus-secondary-select-methods '((nntp "localhost")))
 
 (setq gnus-message-archive-group                   ;设置消息归档的组

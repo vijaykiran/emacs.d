@@ -321,7 +321,7 @@
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 (setq cperl-electric-keywords t)
 
-(global-set-key (kbd "C-;") 'comment-dwim)
+;; (global-set-key (kbd "C-;") 'comment-dwim)
 (add-hook 'cperl-mode-hook (lambda () (abbrev-mode -1)))
 
 (add-hook 'cperl-mode-hook 'sl-highlight-todo)
@@ -330,11 +330,11 @@
 ;;
 ;; high light tail
 ;; 
-(require 'highlight-tail)
-(setq highlight-tail-colors  '(("#bc2525" . 0)))
-;(setq highlight-tail-colors  '(("#ffd700" . 0)))
-;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
-(highlight-tail-mode)
+;; (require 'highlight-tail)
+;; (setq highlight-tail-colors  '(("#bc2525" . 0)))
+;; ;(setq highlight-tail-colors  '(("#ffd700" . 0)))
+;; ;(setq highlight-tail-colors  '(("#ffefa6" . 0)))
+;; (highlight-tail-mode)
 
 ;; 
 ;; tramp
@@ -342,9 +342,8 @@
 
 (require 'tramp)
 (setq tramp-default-method "ssh")
-(setq tramp-default-user "dong.wang")
 
-(add-to-list 'tramp-default-user-alist '(nil "\\`test\\'" "wd"))
+(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 
 ;; 使用 TRAMP 把当前文件以 sudo 方式打开
 (defun kid-find-alternative-file-with-sudo ()
@@ -352,7 +351,7 @@
   (when buffer-file-name
     (let ((point (point)))
       (find-alternate-file
-       (concat "/sudo:root@localhost:"
+       (concat "/sudo::"
                buffer-file-name))
       (goto-char point))))
 (global-set-key (kbd "C-x C-r") 'kid-find-alternative-file-with-sudo)
@@ -614,5 +613,10 @@ This will also reserve changes already made by a non-root user."
 ;; 
 (require 'org-confluence)
 ;; https://github.com/hgschmie/org-confluence
+
+;; 
+;; xwl-paste
+;; 
+(require 'xwl-paste)
 
 (provide 'wd-misc)

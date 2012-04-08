@@ -9,11 +9,13 @@
 
 ;;
 ;; color theme
-;; 
+;;
+;; (color-theme-tango-2)
+;; (color-theme-tangotango)
 (require 'color-theme-hober2)
 (color-theme-hober2)
-(set-face-attribute 'font-lock-comment-face nil
-                    :slant 'normal)
+;; (set-face-attribute 'font-lock-comment-face nil
+;;                     :slant 'normal)
 
 ;; (require 'color-theme-humane)
 ;; (color-theme-humane)
@@ -26,6 +28,10 @@
 ;; (color-theme-tomorrow-night)
 ;; (color-theme-tomorrow-night-bright)
 ;; (color-theme-tomorrow-night-eighties)
+;; (set-face-attribute 'font-lock-comment-face nil
+;;			:foreground "#7285b7"
+;;			)
+
 ;; (color-theme-almost-monokai)
 ;; (color-theme-sanityinc-dark)
 ;; (color-theme-solarized)
@@ -154,6 +160,11 @@
     (set-face-attribute 'diff-removed nil
                         :foreground "#f2777a")
 ))
+
+;; 
+;; xclip
+;; 
+(turn-on-xclip)
 
 
 (provide 'wd-el-get)

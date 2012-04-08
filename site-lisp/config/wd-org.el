@@ -27,38 +27,61 @@
             (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
             (define-key yas/keymap [tab] 'yas/next-field)))
 
-;; (defun wd-move-done-task-to-done-cats ( task-pos )
-;;   "auto move done task to *DONE cats"
-;;   (message (format "from is TODO, to is DONE, pos %s" task-pos))
-;;   (let ((entry (org-get-entry)))
-;;     (message (format "entry is : %s" entry))
-;;   ))
+(defun wd-move-done-task-to-done-cats ( task-pos )
+  "move done task to *DONE cats"
+  (let* ((entry (org-get-entry))
+        (title (org-get-heading))
+        (task (format "** %s\n%s\n" title entry))
+        )
+    (goto-char (point-min))
+    (when (search-forward-regexp "^* Tasks$")
+      (goto-char (point-min))
+      (when (search-forward-regexp "^* Done$")
+        (goto-char (match-beginning 0))
+        (forward-line)      
+        (insert task)
+        (goto-char task-pos)
+        (delete-region (org-entry-beginning-position) (org-entry-end-position))      
+        )
+      )
+    )
+  )
 
-;; (defun wd-track-task-status ( changes-plist )
-;;    "auto move done tasks to *DONE cats"
-;;    (interactive)
-;;    (let ((type (plist-get change-plist :type))
-;;           (pos (plist-get change-plist :position))
-;;           (from (plist-get change-plist :from))
-;;           (to (plist-get change-plist :to)))
-;;      ;; (org-log-done nil) ; IMPROTANT!: no logging during automatic trigger!
-;;      (if (and (string= from "TODO")
-;;               (string= to "DONE"))
-;;          (wd-move-done-task-to-done-cats pos)
-;;        )
-;;      (message (format "type:%s  pos:%s  from:%s  to:%s" type pos from to))
-;;    )
-;; )
+(defun wd-track-task-status ( changes-plist )
+   "Track task status, and move it to '* Done' cats if it is stats change from to to done
+1 TODO 文件至少需要包含两个标题 * Tasks 和 * Done
+2 * Tasks 里面的 TODO 内容变成 DONE 的时候，会自动把这个条目移动到 * Done
+3 org-todo-keywords 的设置里面不能包含自动增加时间等的设置，否则增加的内容不能正确加到这个条目
+"
+   ;; (interactive)
+   (let ((type (plist-get change-plist :type))
+          (pos (plist-get change-plist :position))
+          (from (plist-get change-plist :from))
+          (to (plist-get change-plist :to))
+          )
+     (when (and (string= from "TODO")
+                (string= to "DONE"))
+       ;; (let ((answer (read-char "Move this entry to *DONE ? Y/N (Y)")))
+       ;;   (when (or (= answer (string-to-char "y"))
+       ;;             (= answer (string-to-char "Y"))
+       ;;             (= answer (string-to-char ""))
+       ;;             )
+           (wd-move-done-task-to-done-cats pos)
+         ;; ))
+       )
+     )
+   )
 
-;; (add-hook 'org-trigger-hook 'wd-track-task-status)
+(add-hook 'org-trigger-hook 'wd-track-task-status)
 
-
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+      '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "CANCELED(c)")))
 
 
 (setq org-default-notes-file "~/org/todo.org")
-(setq org-agenda-ndays 10
+(setq org-agenda-ndays 14
       org-deadline-warning-days 14
       org-agenda-show-all-dates t)
 
@@ -223,7 +246,7 @@ in current buffer."
           (search-forward "* Tasks")
           (goto-char (match-beginning 0))
           (insert tasks))))))
- 
+
 ;; (add-hook 'org-mobile-post-pull-hook 'my-org-convert-incoming-items)
 
 (provide 'wd-org)

@@ -1524,6 +1524,39 @@ Preview the present subtree in browser, if posted.
 
 ;;;***
 
+;;;### (autoloads (pastebin pastebin-buffer pastebin) "pastebin/pastebin"
+;;;;;;  "pastebin/pastebin.el" (20339 5611))
+;;; Generated autoloads from pastebin/pastebin.el
+
+(let ((loads (get 'pastebin 'custom-loads))) (if (member '"pastebin/pastebin" loads) nil (put 'pastebin 'custom-loads (cons '"pastebin/pastebin" loads))))
+
+(autoload 'pastebin-buffer "pastebin/pastebin" "\
+Send the whole buffer to pastebin.com.
+Optional argument domain will request the virtual host to use,
+eg:'emacs.pastebin.com' or 'mylocalpastebin.com'.
+
+\(fn &optional DOMAIN)" t nil)
+
+(autoload 'pastebin "pastebin/pastebin" "\
+Send the region to the pastebin service specified by domain.
+
+See pastebin.com for more information about pastebin.
+
+Called interactively pastebin uses the current region for
+preference for sending... if the mark is NOT set then the entire
+buffer is sent.
+
+Argument START is the start of region.
+Argument END is the end of region.
+
+If domain is used pastebin prompts for a domain defaulting to
+'pastebin-default-domain' so you can send requests or use a
+different domain.
+
+\(fn START END &optional DOMAIN)" t nil)
+
+;;;***
+
 ;;;### (autoloads (php-mode php-file-patterns php-mode-to-use) "php-mode-improved/php-mode-improved"
 ;;;;;;  "php-mode-improved/php-mode-improved.el" (20332 3409))
 ;;; Generated autoloads from php-mode-improved/php-mode-improved.el
@@ -1548,11 +1581,27 @@ Major mode for editing PHP code.
 ;;;***
 
 ;;;### (autoloads (twit) "twittering-mode-xwl/twittering-mode" "twittering-mode-xwl/twittering-mode.el"
-;;;;;;  (20335 10745))
+;;;;;;  (20352 11583))
 ;;; Generated autoloads from twittering-mode-xwl/twittering-mode.el
 
 (autoload 'twit "twittering-mode-xwl/twittering-mode" "\
 Start twittering-mode.
+
+\(fn)" t nil)
+
+;;;***
+
+;;;### (autoloads (turn-off-xclip turn-on-xclip) "xclip/xclip" "xclip/xclip.el"
+;;;;;;  (19555 55280))
+;;; Generated autoloads from xclip/xclip.el
+
+(autoload 'turn-on-xclip "xclip/xclip" "\
+
+
+\(fn)" t nil)
+
+(autoload 'turn-off-xclip "xclip/xclip" "\
+
 
 \(fn)" t nil)
 
@@ -1609,7 +1658,8 @@ See `yas/minor-mode' for more information on Yas/Minor mode.
 ;;;;;;  "anything/extensions/anything-obsolete.el" "anything/extensions/anything-show-completion.el"
 ;;;;;;  "auto-complete/auto-complete-config.el" "auto-complete/auto-complete.el"
 ;;;;;;  "auto-complete/fuzzy.el" "auto-complete/popup.el" "color-theme-almost-monokai/color-theme-almost-monokai.el"
-;;;;;;  "color-theme-sanityinc/color-theme-sanityinc.el" "color-theme-zenburn/color-theme-zenburn.el"
+;;;;;;  "color-theme-sanityinc/color-theme-sanityinc.el" "color-theme-tango-2/color-theme-tango-2.el"
+;;;;;;  "color-theme-tangotango/color-theme-tangotango.el" "color-theme-zenburn/color-theme-zenburn.el"
 ;;;;;;  "color-theme/color-theme-autoloads.el" "el-get/el-get-autoloads.el"
 ;;;;;;  "el-get/el-get-core.el" "el-get/el-get-custom.el" "el-get/el-get-dependencies.el"
 ;;;;;;  "el-get/el-get-install.el" "el-get/el-get-methods.el" "el-get/el-get-notify.el"
@@ -1619,7 +1669,7 @@ See `yas/minor-mode' for more information on Yas/Minor mode.
 ;;;;;;  "org2blog/org2blog-pkg.el" "switch-window/switch-window.el"
 ;;;;;;  "twittering-mode-xwl/test.el" "xml-rpc-el/xml-rpc.el" "yasnippet/dropdown-list.el"
 ;;;;;;  "yasnippet/yasnippet-debug.el" "yasnippet/yasnippet-tests.el")
-;;;;;;  (20335 10746 391182))
+;;;;;;  (20352 53917 897383))
 
 ;;;***
 

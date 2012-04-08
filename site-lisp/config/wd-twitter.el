@@ -74,6 +74,7 @@
 (setq twittering-image-external-viewer-command
       (case system-type
         ((darwin) "open")
+        ((gnu/linux) "xdg-open")
         ((windows-nt) "")))
 
 (setq twittering-use-icon-storage t)
