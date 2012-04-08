@@ -164,7 +164,9 @@
 ;; 
 ;; xclip
 ;; 
-(turn-on-xclip)
+(if (not (eq system-type 'darwin))
+    (turn-on-xclip)
+)
 
 
 (provide 'wd-el-get)

@@ -266,6 +266,6 @@ matches a regexp in `erc-keywords'."
   (dolist (buffer (filter-server-buffers))
     (message "Server buffer: %s" (buffer-name buffer))
     (with-current-buffer buffer
-      (erc-quit-server "Asta la vista"))))
+      (erc-quit-server "la wa ka ku"))))
 
 (provide 'wd-erc)

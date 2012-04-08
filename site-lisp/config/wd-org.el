@@ -79,7 +79,6 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "CANCELED(c)")))
 
-
 (setq org-default-notes-file "~/org/todo.org")
 (setq org-agenda-ndays 14
       org-deadline-warning-days 14
